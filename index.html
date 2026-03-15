@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit BTP — Diagnostic Administratif</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #FAFAF8; color: #1A1A1A; min-height: 100vh; display: flex; justify-content: center; padding: 2rem 1rem; }
+.container { max-width: 640px; width: 100%; }
+.header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #E8E4DE; }
+.header .logo { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #B85C2A; font-weight: 500; margin-bottom: 10px; }
+.header h1 { font-size: 26px; font-weight: 400; color: #1A1A1A; margin-bottom: 6px; }
+.header p { font-size: 14px; color: #888; line-height: 1.6; }
+.progress { display: flex; gap: 4px; margin-bottom: 2rem; }
+.pd { height: 3px; border-radius: 2px; flex: 1; background: #E0DAD2; transition: background 0.3s; }
+.pd.done { background: #B85C2A; }
+.page { display: none; }
+.page.active { display: block; }
+.step-label { font-size: 11px; color: #B85C2A; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; font-weight: 500; }
+.step-title { font-size: 22px; font-weight: 400; color: #1A1A1A; margin-bottom: 6px; }
+.step-sub { font-size: 14px; color: #777; line-height: 1.6; margin-bottom: 1.75rem; }
+.field { margin-bottom: 1.25rem; }
+.field label { display: block; font-size: 13px; color: #555; margin-bottom: 7px; font-weight: 400; }
+.field input[type="text"], .field select, .field textarea {
+  width: 100%; padding: 10px 14px; border: 1px solid #E0DAD2; border-radius: 8px;
+  font-size: 14px; color: #1A1A1A; background: #fff; outline: none;
+  transition: border-color 0.15s; font-family: inherit;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: #B85C2A; }
+.field textarea { height: 72px; resize: none; }
+.hint { font-size: 12px; color: #AAA; margin-bottom: 7px; }
+.rg, .cg { display: flex; flex-direction: column; gap: 8px; }
+.ri, .ci {
+  padding: 11px 16px; border: 1px solid #E0DAD2; border-radius: 8px;
+  cursor: pointer; transition: all 0.15s; background: #fff;
+}
+.ri:hover, .ci:hover { border-color: #C97A4A; background: #FDF8F5; }
+.ri.on, .ci.on { border-color: #B85C2A; background: #FDF3EC; }
+.ri span, .ci span { font-size: 14px; color: #333; }
+.ri textarea {
+  width: 100%; height: 52px; resize: none; font-size: 13px; display: none;
+  margin-top: 10px; padding: 8px 10px; border: 1px solid #E0DAD2; border-radius: 6px;
+  font-family: inherit; background: #fff;
+}
+.ri.on textarea.rev { display: block; }
+.opt-tag {
+  display: inline-block; font-size: 11px; color: #AAA; background: #F5F0EB;
+  border: 1px solid #E0DAD2; border-radius: 20px; padding: 2px 8px; margin-left: 8px; vertical-align: middle;
+}
+.divider { height: 1px; background: #EDE8E2; margin: 1.5rem 0; }
+.nav { display: flex; gap: 10px; margin-top: 2rem; }
+.btn-next {
+  flex: 1; padding: 12px; font-size: 14px; font-weight: 500; border-radius: 8px;
+  background: #1A1A1A; color: #fff; border: none; cursor: pointer; transition: background 0.15s;
+}
+.btn-next:hover { background: #333; }
+.btn-back {
+  padding: 12px 20px; font-size: 14px; border-radius: 8px;
+  border: 1px solid #D5CFC7; background: transparent; color: #555; cursor: pointer; transition: all 0.15s;
+}
+.btn-back:hover { background: #F5F0EB; }
+.recap-box {
+  background: #F5F0EB; border: 1px solid #E0DAD2; border-radius: 12px;
+  padding: 1.5rem; margin-bottom: 1.25rem;
+}
+.recap-section { margin-bottom: 1.25rem; }
+.recap-section:last-child { margin-bottom: 0; }
+.recap-section-title {
+  font-size: 11px; color: #B85C2A; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid #E0DAD2; font-weight: 500;
+}
+.recap-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; font-size: 13px; gap: 12px; }
+.recap-row span:first-child { color: #888; white-space: nowrap; }
+.recap-row span:last-child { color: #1A1A1A; font-weight: 500; text-align: right; max-width: 60%; }
+.send-state { display: none; align-items: center; gap: 10px; padding: 1rem 0; font-size: 14px; color: #888; }
+.dots span { display: inline-block; animation: blink 1.2s infinite; font-size: 18px; }
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,80%,100%{opacity:0.2}40%{opacity:1} }
+.success-card { background: #EDF7F0; border: 1px solid #A8D5B5; border-radius: 10px; padding: 1.25rem; display: none; }
+.success-card h3 { font-size: 15px; color: #2D7A4A; font-weight: 500; margin-bottom: 6px; }
+.success-card p { font-size: 13px; color: #4A9962; line-height: 1.6; }
+.error-card { background: #FDF0EE; border: 1px solid #F0B8AF; border-radius: 10px; padding: 1.25rem; display: none; }
+.error-card p { font-size: 13px; color: #C0442A; line-height: 1.6; }
+.footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #E8E4DE; font-size: 12px; color: #BBB; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">Audit BTP</div>
+    <h1>Diagnostic Administratif</h1>
+    <p>6 étapes pour identifier vos pertes de temps et recevoir des recommandations personnalisées.</p>
+  </div>
+
+  <div class="progress" id="prog"></div>
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="p1">
+    <div class="step-label">Étape 1 sur 6</div>
+    <div class="step-title">Votre entreprise</div>
+    <div class="step-sub">Ces informations permettent d'adapter l'audit à votre activité.</div>
+    <div class="field"><label>Votre nom</label><input type="text" id="f-nom" placeholder="ex. Dupont" /></div>
+    <div class="field"><label>Nom de l'entreprise</label><input type="text" id="f-entreprise" placeholder="ex. Carrelage Dupont" /></div>
+    <div class="field"><label>Nombre de personnes dans l'entreprise</label>
+      <select id="f-taille">
+        <option value="">Sélectionner</option>
+        <option>1 — je travaille seul</option>
+        <option>2 personnes</option>
+        <option>3 personnes</option>
+      </select>
+    </div>
+    <div class="field"><label>Depuis combien d'années exercez-vous ?</label>
+      <select id="f-anciennete">
+        <option value="">Sélectionner</option>
+        <option>Moins de 2 ans</option>
+        <option>2 à 5 ans</option>
+        <option>5 à 10 ans</option>
+        <option>Plus de 10 ans</option>
+      </select>
+    </div>
+    <div class="field"><label>Chiffre d'affaires annuel approximatif</label>
+      <select id="f-ca">
+        <option value="">Sélectionner</option>
+        <option>Moins de 50 000 €</option>
+        <option>50 000 à 100 000 €</option>
+        <option>100 000 à 200 000 €</option>
+        <option>200 000 à 500 000 €</option>
+        <option>Plus de 500 000 €</option>
+      </select>
+    </div>
+    <div class="nav"><button class="btn-next" onclick="go(1,2)">Continuer →</button></div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="p2">
+    <div class="step-label">Étape 2 sur 6</div>
+    <div class="step-title">Devis et factures</div>
+    <div class="step-sub">Comment gérez-vous votre administratif commercial aujourd'hui ?</div>
+    <div class="field"><label>Pour faire vos devis, vous utilisez :</label>
+      <div class="rg" id="rg-devis">
+        <div class="ri" onclick="selR('rg-devis',this)"><span>Excel, Word ou Canva</span></div>
+        <div class="ri" onclick="selR('rg-devis',this)"><span>Un logiciel spécialisé</span><textarea class="rev" placeholder="Lequel ? (ex. Batappli, Batigest...)" onclick="event.stopPropagation()"></textarea></div>
+        <div class="ri" onclick="selR('rg-devis',this)"><span>Autre</span><textarea class="rev" placeholder="Précisez..." onclick="event.stopPropagation()"></textarea></div>
+      </div>
+    </div>
+    <div class="field"><label>Temps moyen pour rédiger un devis</label>
+      <div class="rg" id="rg-tdevis">
+        <div class="ri" onclick="selR('rg-tdevis',this)"><span>Moins de 30 minutes</span></div>
+        <div class="ri" onclick="selR('rg-tdevis',this)"><span>30 min à 1 heure</span></div>
+        <div class="ri" onclick="selR('rg-tdevis',this)"><span>1 à 2 heures</span></div>
+        <div class="ri" onclick="selR('rg-tdevis',this)"><span>Plus de 2 heures</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Pour vos factures, vous utilisez :</label>
+      <div class="rg" id="rg-facture">
+        <div class="ri" onclick="selR('rg-facture',this)"><span>Excel, Word ou Canva</span></div>
+        <div class="ri" onclick="selR('rg-facture',this)"><span>Un logiciel de facturation</span></div>
+        <div class="ri" onclick="selR('rg-facture',this)"><span>Mon comptable s'en occupe</span></div>
+        <div class="ri" onclick="selR('rg-facture',this)"><span>Autre</span><textarea class="rev" placeholder="Précisez..." onclick="event.stopPropagation()"></textarea></div>
+      </div>
+    </div>
+    <div class="field"><label>Vous arrive-t-il de relancer des clients pour des impayés ?</label>
+      <div class="rg" id="rg-relance">
+        <div class="ri" onclick="selR('rg-relance',this)"><span>Oui, régulièrement</span></div>
+        <div class="ri" onclick="selR('rg-relance',this)"><span>Oui, parfois</span></div>
+        <div class="ri" onclick="selR('rg-relance',this)"><span>Rarement</span></div>
+        <div class="ri" onclick="selR('rg-relance',this)"><span>Non, jamais</span></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(2,1)">← Retour</button>
+      <button class="btn-next" onclick="go(2,3)">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" id="p3">
+    <div class="step-label">Étape 3 sur 6</div>
+    <div class="step-title">Planning et communication</div>
+    <div class="step-sub">Comment s'organise votre quotidien entre le bureau, le chantier et les intervenants ?</div>
+    <div class="field"><label>Chantiers gérés simultanément en moyenne</label>
+      <div class="rg" id="rg-nb">
+        <div class="ri" onclick="selR('rg-nb',this)"><span>1 seul à la fois</span></div>
+        <div class="ri" onclick="selR('rg-nb',this)"><span>2 à 3</span></div>
+        <div class="ri" onclick="selR('rg-nb',this)"><span>4 ou plus</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Comment gérez-vous votre planning ?</label>
+      <div class="rg" id="rg-planning">
+        <div class="ri" onclick="selR('rg-planning',this)"><span>Dans ma tête ou sur un carnet</span></div>
+        <div class="ri" onclick="selR('rg-planning',this)"><span>Sur un agenda papier</span></div>
+        <div class="ri" onclick="selR('rg-planning',this)"><span>Sur Google Calendar ou équivalent</span></div>
+        <div class="ri" onclick="selR('rg-planning',this)"><span>Via un logiciel de gestion de chantier</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Comment suivez-vous l'avancement de vos chantiers ?</label>
+      <div class="rg" id="rg-suivi">
+        <div class="ri" onclick="selR('rg-suivi',this)"><span>Je suis présent, pas besoin de suivi écrit</span></div>
+        <div class="ri" onclick="selR('rg-suivi',this)"><span>Photos et notes sur le téléphone</span></div>
+        <div class="ri" onclick="selR('rg-suivi',this)"><span>Je rédige des comptes-rendus</span></div>
+        <div class="ri" onclick="selR('rg-suivi',this)"><span>Via un outil dédié</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Avec qui échangez-vous sur vos chantiers ?</label>
+      <div class="hint">Quelques exemples, cochez ce qui s'applique</div>
+      <div class="cg" id="cg-acteurs">
+        <div class="ci" onclick="togC(this)"><span>Clients particuliers</span></div>
+        <div class="ci" onclick="togC(this)"><span>Maîtres d'oeuvre (MOE)</span></div>
+        <div class="ci" onclick="togC(this)"><span>Architectes</span></div>
+        <div class="ci" onclick="togC(this)"><span>Autres corps de métier</span></div>
+        <div class="ci" onclick="togC(this)"><span>Fournisseurs de matériaux</span></div>
+        <div class="ci" onclick="togC(this)"><span>Collectivités / maîtres d'ouvrage publics</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Canal de communication principal</label>
+      <div class="rg" id="rg-canal">
+        <div class="ri" onclick="selR('rg-canal',this)"><span>Téléphone uniquement</span></div>
+        <div class="ri" onclick="selR('rg-canal',this)"><span>SMS et WhatsApp</span></div>
+        <div class="ri" onclick="selR('rg-canal',this)"><span>Email</span></div>
+        <div class="ri" onclick="selR('rg-canal',this)"><span>Un mix selon les personnes</span></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(3,2)">← Retour</button>
+      <button class="btn-next" onclick="go(3,4)">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page" id="p4">
+    <div class="step-label">Étape 4 sur 6</div>
+    <div class="step-title">Temps et problèmes</div>
+    <div class="step-sub">Ces questions permettent d'identifier précisément où vous perdez du temps et de l'argent.</div>
+    <div class="field"><label>Temps hebdomadaire sur des tâches administratives</label>
+      <div class="rg" id="rg-temps">
+        <div class="ri" onclick="selR('rg-temps',this)"><span>Moins de 2h</span></div>
+        <div class="ri" onclick="selR('rg-temps',this)"><span>2 à 5h</span></div>
+        <div class="ri" onclick="selR('rg-temps',this)"><span>5 à 10h</span></div>
+        <div class="ri" onclick="selR('rg-temps',this)"><span>Plus de 10h</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Tâche la plus chronophage</label>
+      <div class="rg" id="rg-tache">
+        <div class="ri" onclick="selR('rg-tache',this)"><span>Faire les devis</span></div>
+        <div class="ri" onclick="selR('rg-tache',this)"><span>Facturer et relancer les clients</span></div>
+        <div class="ri" onclick="selR('rg-tache',this)"><span>Gérer le planning et les chantiers</span></div>
+        <div class="ri" onclick="selR('rg-tache',this)"><span>Répondre aux clients et intervenants</span></div>
+        <div class="ri" onclick="selR('rg-tache',this)"><span>Gérer les achats et les stocks</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="field"><label>Sur 10 devis envoyés, combien deviennent des chantiers ?</label>
+      <div class="rg" id="rg-transfo">
+        <div class="ri" onclick="selR('rg-transfo',this)"><span>Moins de 3 sur 10</span></div>
+        <div class="ri" onclick="selR('rg-transfo',this)"><span>3 à 5 sur 10</span></div>
+        <div class="ri" onclick="selR('rg-transfo',this)"><span>6 à 8 sur 10</span></div>
+        <div class="ri" onclick="selR('rg-transfo',this)"><span>Plus de 8 sur 10</span></div>
+        <div class="ri" onclick="selR('rg-transfo',this)"><span>Je ne le suis pas</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="field"><label>Situations qui vous arrivent régulièrement</label>
+      <div class="cg" id="cg-pb">
+        <div class="ci" onclick="togC(this)"><span>Je perds du temps à refaire les mêmes documents</span></div>
+        <div class="ci" onclick="togC(this)"><span>Des clients ne paient pas à temps</span></div>
+        <div class="ci" onclick="togC(this)"><span>Je manque de visibilité sur mon planning</span></div>
+        <div class="ci" onclick="togC(this)"><span>Je perds des informations entre le chantier et le bureau</span></div>
+        <div class="ci" onclick="togC(this)"><span>Je n'ai pas le temps de relancer mes clients</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Erreurs ou oublis qui vous arrivent</label>
+      <div class="cg" id="cg-err">
+        <div class="ci" onclick="togC(this)"><span>Oublier de facturer une prestation ou un supplément</span></div>
+        <div class="ci" onclick="togC(this)"><span>Mal chiffrer un devis et perdre de la marge</span></div>
+        <div class="ci" onclick="togC(this)"><span>Perdre un bon de commande ou un document client</span></div>
+        <div class="ci" onclick="togC(this)"><span>Envoyer un devis en retard et perdre le chantier</span></div>
+        <div class="ci" onclick="togC(this)"><span>Ne pas savoir où en est une facture envoyée</span></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(4,3)">← Retour</button>
+      <button class="btn-next" onclick="go(4,5)">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page" id="p5">
+    <div class="step-label">Étape 5 sur 6</div>
+    <div class="step-title">Vos objectifs</div>
+    <div class="step-sub">Ce qui vous freinerait ou vous convaincrait de changer.</div>
+    <div class="field"><label>Ce qui vous ferait le plus gagner du temps au quotidien</label>
+      <div class="rg" id="rg-prio">
+        <div class="ri" onclick="selR('rg-prio',this)"><span>Créer mes devis plus vite</span></div>
+        <div class="ri" onclick="selR('rg-prio',this)"><span>Facturer et relancer automatiquement</span></div>
+        <div class="ri" onclick="selR('rg-prio',this)"><span>Avoir une vue claire sur mon planning</span></div>
+        <div class="ri" onclick="selR('rg-prio',this)"><span>Réduire les allers-retours avec mes intervenants</span></div>
+        <div class="ri" onclick="selR('rg-prio',this)"><span>Ne plus perdre de documents ou d'informations</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Seriez-vous prêt à utiliser un outil numérique si cela vous faisait gagner plus de 2h par semaine ?</label>
+      <div class="rg" id="rg-ouv">
+        <div class="ri" onclick="selR('rg-ouv',this)"><span>Oui, sans hésitation</span></div>
+        <div class="ri" onclick="selR('rg-ouv',this)"><span>Oui, si c'est simple à prendre en main</span></div>
+        <div class="ri" onclick="selR('rg-ouv',this)"><span>Je ne sais pas encore</span></div>
+        <div class="ri" onclick="selR('rg-ouv',this)"><span>Non, je préfère mes méthodes actuelles</span></div>
+      </div>
+    </div>
+    <div class="field"><label>Votre principal frein à utiliser un outil numérique aujourd'hui</label>
+      <div class="rg" id="rg-frein">
+        <div class="ri" onclick="selR('rg-frein',this)"><span>Pas le temps de l'apprendre</span></div>
+        <div class="ri" onclick="selR('rg-frein',this)"><span>Le coût</span></div>
+        <div class="ri" onclick="selR('rg-frein',this)"><span>Je ne vois pas ce que ça m'apporterait concrètement</span></div>
+        <div class="ri" onclick="selR('rg-frein',this)"><span>J'ai déjà essayé et abandonné</span></div>
+        <div class="ri" onclick="selR('rg-frein',this)"><span>Je n'ai pas de frein particulier</span></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="field">
+      <label>Autre chose à ajouter ? <span class="opt-tag">Optionnel</span></label>
+      <div class="hint">Un problème spécifique, une situation récurrente...</div>
+      <textarea id="f-libre" placeholder="Écrivez librement..."></textarea>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(5,4)">← Retour</button>
+      <button class="btn-next" onclick="go(5,6)">Voir le récapitulatif →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 6 -->
+  <div class="page" id="p6">
+    <div class="step-label">Étape 6 sur 6</div>
+    <div class="step-title">Récapitulatif</div>
+    <div class="step-sub">Vérifiez vos réponses avant envoi. Votre compte-rendu sera transmis pour analyse.</div>
+    <div class="recap-box" id="recap-box"></div>
+    <div class="send-state" id="send-loading">
+      <div class="dots"><span>●</span><span>●</span><span>●</span></div>
+      <span style="margin-left:8px;">Envoi en cours...</span>
+    </div>
+    <div class="success-card" id="send-success">
+      <h3>Compte-rendu envoyé ✓</h3>
+      <p>Votre diagnostic a bien été transmis. Vous recevrez une analyse personnalisée avec des recommandations concrètes sous peu.</p>
+    </div>
+    <div class="error-card" id="send-error">
+      <p>Une erreur est survenue lors de l'envoi. Veuillez vérifier votre connexion et réessayer.</p>
+    </div>
+    <div class="nav" id="nav-p6">
+      <button class="btn-back" onclick="go(6,5)">← Modifier</button>
+      <button class="btn-next" onclick="sendAudit()">Envoyer le compte-rendu →</button>
+    </div>
+  </div>
+
+  <div class="footer">Audit BTP — Diagnostic confidentiel</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+(function(){ emailjs.init('fDQdiX0mFcMadCESV'); })();
+
+function buildProg(cur) {
+  var p = document.getElementById('prog');
+  p.innerHTML = '';
+  for (var i = 1; i <= 6; i++) {
+    var d = document.createElement('div');
+    d.className = 'pd' + (i <= cur ? ' done' : '');
+    p.appendChild(d);
+  }
+}
+
+function go(from, to) {
+  document.getElementById('p'+from).classList.remove('active');
+  document.getElementById('p'+to).classList.add('active');
+  buildProg(to);
+  window.scrollTo(0,0);
+  if (to === 6) buildRecap();
+}
+
+function selR(gid, el) {
+  document.querySelectorAll('#'+gid+' .ri').forEach(function(i){ i.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+function togC(el) { el.classList.toggle('on'); }
+
+function gR(gid) {
+  var s = document.querySelector('#'+gid+' .ri.on');
+  if (!s) return 'Non renseigné';
+  var lbl = s.querySelector('span').textContent;
+  var ta = s.querySelector('textarea');
+  return (ta && ta.value.trim()) ? lbl + ' — ' + ta.value.trim() : lbl;
+}
+
+function gC(gid) {
+  var items = document.querySelectorAll('#'+gid+' .ci.on span');
+  return items.length ? Array.from(items).map(function(i){ return i.textContent; }).join(', ') : 'Aucun';
+}
+
+function gV(id) { return document.getElementById(id).value.trim() || 'Non renseigné'; }
+
+function collectData() {
+  return {
+    nom: gV('f-nom'), entreprise: gV('f-entreprise'),
+    taille: gV('f-taille'), anciennete: gV('f-anciennete'), ca: gV('f-ca'),
+    devis: gR('rg-devis'), tdevis: gR('rg-tdevis'),
+    facture: gR('rg-facture'), relance: gR('rg-relance'),
+    nb: gR('rg-nb'), planning: gR('rg-planning'),
+    suivi: gR('rg-suivi'), acteurs: gC('cg-acteurs'), canal: gR('rg-canal'),
+    temps: gR('rg-temps'), tache: gR('rg-tache'), transfo: gR('rg-transfo'),
+    pb: gC('cg-pb'), err: gC('cg-err'),
+    prio: gR('rg-prio'), ouv: gR('rg-ouv'), frein: gR('rg-frein'),
+    libre: document.getElementById('f-libre').value.trim() || 'Aucun'
+  };
+}
+
+function buildRecap() {
+  var d = collectData();
+  var sections = [
+    { title: 'Entreprise', rows: [['Nom', d.nom], ['Entreprise', d.entreprise], ['Effectif', d.taille], ['Ancienneté', d.anciennete], ['CA approximatif', d.ca]] },
+    { title: 'Devis et factures', rows: [['Outil devis', d.devis], ['Temps par devis', d.tdevis], ['Outil factures', d.facture], ['Relances impayés', d.relance]] },
+    { title: 'Planning et communication', rows: [['Chantiers simultanés', d.nb], ['Gestion planning', d.planning], ['Suivi chantier', d.suivi], ['Intervenants', d.acteurs], ['Canal principal', d.canal]] },
+    { title: 'Temps et problèmes', rows: [['Temps admin/semaine', d.temps], ['Tâche la plus lourde', d.tache], ['Taux transformation devis', d.transfo], ['Problèmes récurrents', d.pb], ['Erreurs / oublis', d.err]] },
+    { title: 'Objectifs', rows: [['Priorité principale', d.prio], ['Ouverture numérique', d.ouv], ['Frein principal', d.frein], ['Commentaire libre', d.libre]] }
+  ];
+  document.getElementById('recap-box').innerHTML = sections.map(function(s) {
+    return '<div class="recap-section"><div class="recap-section-title">'+s.title+'</div>'+
+      s.rows.map(function(r){ return '<div class="recap-row"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('')+'</div>';
+  }).join('');
+}
+
+function buildEmailBody(d) {
+  return [
+    '=== AUDIT BTP — '+d.entreprise.toUpperCase()+' ===','',
+    '--- ENTREPRISE ---',
+    'Nom : '+d.nom, 'Entreprise : '+d.entreprise,
+    'Effectif : '+d.taille, 'Ancienneté : '+d.anciennete, 'CA : '+d.ca,'',
+    '--- DEVIS ET FACTURES ---',
+    'Outil devis : '+d.devis, 'Temps par devis : '+d.tdevis,
+    'Outil factures : '+d.facture, 'Relances impayés : '+d.relance,'',
+    '--- PLANNING ET COMMUNICATION ---',
+    'Chantiers simultanés : '+d.nb, 'Planning : '+d.planning,
+    'Suivi chantier : '+d.suivi, 'Intervenants : '+d.acteurs, 'Canal : '+d.canal,'',
+    '--- TEMPS ET PROBLÈMES ---',
+    'Temps admin/semaine : '+d.temps, 'Tâche la plus lourde : '+d.tache,
+    'Taux transformation devis : '+d.transfo,
+    'Problèmes : '+d.pb, 'Erreurs/oublis : '+d.err,'',
+    '--- OBJECTIFS ---',
+    'Priorité : '+d.prio, 'Ouverture numérique : '+d.ouv,
+    'Frein : '+d.frein, 'Commentaire : '+d.libre
+  ].join('\n');
+}
+
+function sendAudit() {
+  var d = collectData();
+  document.getElementById('nav-p6').style.display = 'none';
+  document.getElementById('send-error').style.display = 'none';
+  document.getElementById('send-loading').style.display = 'flex';
+  emailjs.send('service_8c1q9uu', 'template_kbck1m5', {
+    nom_entreprise: d.entreprise,
+    nom: d.nom,
+    compte_rendu: buildEmailBody(d)
+  }).then(function() {
+    document.getElementById('send-loading').style.display = 'none';
+    document.getElementById('send-success').style.display = 'block';
+  }, function() {
+    document.getElementById('send-loading').style.display = 'none';
+    document.getElementById('send-error').style.display = 'block';
+    document.getElementById('nav-p6').style.display = 'flex';
+  });
+}
+
+buildProg(1);
+</script>
+</body>
+</html>
