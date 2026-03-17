@@ -101,6 +101,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="step-label">Étape 1 sur 6</div>
     <div class="step-title">Votre entreprise</div>
     <div class="step-sub">Ces informations permettent d'adapter l'audit à votre activité.</div>
+    <div class="field">
+  <label>Vous êtes :</label>
+  <div class="rg" id="rg-civilite">
+    <div class="ri" onclick="selR('rg-civilite',this)"><span>Monsieur</span></div>
+    <div class="ri" onclick="selR('rg-civilite',this)"><span>Madame</span></div>
+  </div>
+  </div>
     <div class="field"><label>Votre nom</label><input type="text" id="f-nom" placeholder="ex. Dupont" /></div>
     <div class="field"><label>Nom de l'entreprise</label><input type="text" id="f-entreprise" placeholder="ex. Carrelage Dupont" /></div>
     <div class="field"><label>Nombre de personnes dans l'entreprise</label>
@@ -400,7 +407,7 @@ function gV(id) { return document.getElementById(id).value.trim() || 'Non rensei
 
 function collectData() {
   return {
-    nom: gV('f-nom'), entreprise: gV('f-entreprise'),
+    civilite: gR('rg-civilite'), nom: gV('f-nom'), entreprise: gV('f-entreprise'),
     taille: gV('f-taille'), anciennete: gV('f-anciennete'), ca: gV('f-ca'),
     devis: gR('rg-devis'), tdevis: gR('rg-tdevis'),
     facture: gR('rg-facture'), relance: gR('rg-relance'),
@@ -432,7 +439,7 @@ function buildEmailBody(d) {
   return [
     '=== AUDIT BTP — '+d.entreprise.toUpperCase()+' ===','',
     '--- ENTREPRISE ---',
-    'Nom : '+d.nom, 'Entreprise : '+d.entreprise,
+    'Civilité :'+d.civilite, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise,
     'Effectif : '+d.taille, 'Ancienneté : '+d.anciennete, 'CA : '+d.ca,'',
     '--- DEVIS ET FACTURES ---',
     'Outil devis : '+d.devis, 'Temps par devis : '+d.tdevis,
