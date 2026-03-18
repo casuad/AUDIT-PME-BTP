@@ -91,31 +91,32 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div class="header">
     <div class="logo">Audit BTP</div>
     <h1>Diagnostic Administratif</h1>
-    <p>6 étapes pour identifier vos pertes de temps et recevoir des recommandations personnalisées.</p>
+    <p>7 étapes pour identifier vos pertes de temps et recevoir des recommandations personnalisées.</p>
   </div>
 
   <div class="progress" id="prog"></div>
 
   <!-- PAGE 1 -->
   <div class="page active" id="p1">
-    <div class="step-label">Étape 1 sur 6</div>
+    <div class="step-label">Étape 1 sur 7</div>
     <div class="step-title">Votre entreprise</div>
     <div class="step-sub">Ces informations permettent d'adapter l'audit à votre activité.</div>
     <div class="field">
-  <label>Vous êtes :</label>
-  <div class="rg" id="rg-civilite">
-    <div class="ri" onclick="selR('rg-civilite',this)"><span>Monsieur</span></div>
-    <div class="ri" onclick="selR('rg-civilite',this)"><span>Madame</span></div>
-  </div>
-  </div>
+      <label>Vous êtes :</label>
+      <div class="rg" id="rg-civilite">
+        <div class="ri" onclick="selR('rg-civilite',this)"><span>Monsieur</span></div>
+        <div class="ri" onclick="selR('rg-civilite',this)"><span>Madame</span></div>
+      </div>
+    </div>
     <div class="field"><label>Votre nom</label><input type="text" id="f-nom" placeholder="ex. Dupont" /></div>
     <div class="field"><label>Nom de l'entreprise</label><input type="text" id="f-entreprise" placeholder="ex. Carrelage Dupont" /></div>
     <div class="field"><label>Nombre de personnes dans l'entreprise</label>
       <select id="f-taille">
         <option value="">Sélectionner</option>
         <option>1 — je travaille seul</option>
-        <option>2 personnes</option>
-        <option>3 personnes</option>
+        <option>2 à 4 personnes</option>
+        <option>5 à 10 personnes</option>
+        <option>Plus de 10 personnes</option>
       </select>
     </div>
     <div class="field"><label>Depuis combien d'années exercez-vous ?</label>
@@ -142,7 +143,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
   <!-- PAGE 2 -->
   <div class="page" id="p2">
-    <div class="step-label">Étape 2 sur 6</div>
+    <div class="step-label">Étape 2 sur 7</div>
     <div class="step-title">Devis et factures</div>
     <div class="step-sub">Comment gérez-vous votre administratif commercial aujourd'hui ?</div>
     <div class="field"><label>Pour faire vos devis, vous utilisez :</label>
@@ -184,7 +185,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
   <!-- PAGE 3 -->
   <div class="page" id="p3">
-    <div class="step-label">Étape 3 sur 6</div>
+    <div class="step-label">Étape 3 sur 7</div>
     <div class="step-title">Planning et communication</div>
     <div class="step-sub">Comment s'organise votre quotidien entre le bureau, le chantier et les intervenants ?</div>
     <div class="field"><label>Chantiers gérés simultanément en moyenne</label>
@@ -211,7 +212,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       </div>
     </div>
     <div class="field"><label>Avec qui échangez-vous sur vos chantiers ?</label>
-      <div class="hint">Quelques exemples, cochez ce qui s'applique</div>
+      <div class="hint">Cochez ce qui s'applique</div>
       <div class="cg" id="cg-acteurs">
         <div class="ci" onclick="togC(this)"><span>Clients particuliers</span></div>
         <div class="ci" onclick="togC(this)"><span>Maîtres d'oeuvre (MOE)</span></div>
@@ -237,7 +238,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
   <!-- PAGE 4 -->
   <div class="page" id="p4">
-    <div class="step-label">Étape 4 sur 6</div>
+    <div class="step-label">Étape 4 sur 7</div>
     <div class="step-title">Temps et problèmes</div>
     <div class="step-sub">Ces questions permettent d'identifier précisément où vous perdez du temps et de l'argent.</div>
     <div class="field"><label>Temps hebdomadaire sur des tâches administratives</label>
@@ -294,7 +295,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
   <!-- PAGE 5 -->
   <div class="page" id="p5">
-    <div class="step-label">Étape 5 sur 6</div>
+    <div class="step-label">Étape 5 sur 7</div>
     <div class="step-title">Vos objectifs</div>
     <div class="step-sub">Ce qui vous freinerait ou vous convaincrait de changer.</div>
     <div class="field"><label>Ce qui vous ferait le plus gagner du temps au quotidien</label>
@@ -323,23 +324,94 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-frein',this)"><span>Je n'ai pas de frein particulier</span></div>
       </div>
     </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(5,4)">← Retour</button>
+      <button class="btn-next" onclick="go(5,6)">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 6 — MARKETING ET RENTABILITÉ -->
+  <div class="page" id="p6">
+    <div class="step-label">Étape 6 sur 7</div>
+    <div class="step-title">Marketing et rentabilité</div>
+    <div class="step-sub">Ces questions permettent d'évaluer votre visibilité et votre maîtrise des marges.</div>
+
+    <div class="field"><label>Comment trouvez-vous vos nouveaux clients aujourd'hui ?</label>
+      <div class="cg" id="cg-acquisition">
+        <div class="ci" onclick="togC(this)"><span>Bouche-à-oreille uniquement</span></div>
+        <div class="ci" onclick="togC(this)"><span>Réseaux sociaux (Facebook, Instagram...)</span></div>
+        <div class="ci" onclick="togC(this)"><span>Annuaires en ligne (Pages Jaunes, Houzz...)</span></div>
+        <div class="ci" onclick="togC(this)"><span>Site web</span></div>
+        <div class="ci" onclick="togC(this)"><span>Plateformes de mise en relation (Habitissimo, Travaux.com...)</span></div>
+        <div class="ci" onclick="togC(this)"><span>Apporteurs d'affaires / partenaires</span></div>
+      </div>
+    </div>
+
+    <div class="field"><label>Avez-vous un site web ou une présence en ligne active ?</label>
+      <div class="rg" id="rg-web">
+        <div class="ri" onclick="selR('rg-web',this)"><span>Oui, un site web à jour</span></div>
+        <div class="ri" onclick="selR('rg-web',this)"><span>Une page sur les réseaux sociaux</span></div>
+        <div class="ri" onclick="selR('rg-web',this)"><span>Une fiche Google My Business</span></div>
+        <div class="ri" onclick="selR('rg-web',this)"><span>Non, aucune présence en ligne</span></div>
+      </div>
+    </div>
+
+    <div class="field"><label>Relancez-vous vos anciens clients pour de nouveaux chantiers ?</label>
+      <div class="rg" id="rg-fidelisation">
+        <div class="ri" onclick="selR('rg-fidelisation',this)"><span>Oui, régulièrement</span></div>
+        <div class="ri" onclick="selR('rg-fidelisation',this)"><span>Rarement, seulement si l'occasion se présente</span></div>
+        <div class="ri" onclick="selR('rg-fidelisation',this)"><span>Non, ce sont eux qui me recontactent</span></div>
+        <div class="ri" onclick="selR('rg-fidelisation',this)"><span>Je ne travaille pas avec les mêmes clients plusieurs fois</span></div>
+      </div>
+    </div>
+
     <div class="divider"></div>
+
+    <div class="field"><label>Suivez-vous votre marge par chantier ?</label>
+      <div class="rg" id="rg-marge">
+        <div class="ri" onclick="selR('rg-marge',this)"><span>Oui, systématiquement</span></div>
+        <div class="ri" onclick="selR('rg-marge',this)"><span>Oui, sur les gros chantiers uniquement</span></div>
+        <div class="ri" onclick="selR('rg-marge',this)"><span>Non, j'estime à l'intuition</span></div>
+        <div class="ri" onclick="selR('rg-marge',this)"><span>Non, je ne sais pas comment faire</span></div>
+      </div>
+    </div>
+
+    <div class="field"><label>Avez-vous une idée de votre taux horaire réel ?</label>
+      <div class="hint">Ce que vous gagnez réellement de l'heure, charges et temps admin déduits</div>
+      <div class="rg" id="rg-tauxhoraire">
+        <div class="ri" onclick="selR('rg-tauxhoraire',this)"><span>Oui, je le connais précisément</span></div>
+        <div class="ri" onclick="selR('rg-tauxhoraire',this)"><span>J'ai une idée approximative</span></div>
+        <div class="ri" onclick="selR('rg-tauxhoraire',this)"><span>Non, je n'ai jamais calculé</span></div>
+      </div>
+    </div>
+
+    <div class="field"><label>Vous arrive-t-il de terminer un chantier en ayant perdu de l'argent par rapport au devis ?</label>
+      <div class="rg" id="rg-pertemarge">
+        <div class="ri" onclick="selR('rg-pertemarge',this)"><span>Oui, régulièrement</span></div>
+        <div class="ri" onclick="selR('rg-pertemarge',this)"><span>Oui, parfois</span></div>
+        <div class="ri" onclick="selR('rg-pertemarge',this)"><span>Rarement</span></div>
+        <div class="ri" onclick="selR('rg-pertemarge',this)"><span>Non, jamais</span></div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" onclick="go(6,5)">← Retour</button>
+      <button class="btn-next" onclick="go(6,7)">Continuer →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 7 — RÉCAPITULATIF -->
+  <div class="page" id="p7">
+    <div class="step-label">Étape 7 sur 7</div>
+    <div class="step-title">Récapitulatif</div>
+    <div class="step-sub">Vérifiez vos réponses avant envoi. Votre compte-rendu sera transmis pour analyse.</div>
+
     <div class="field">
       <label>Autre chose à ajouter ? <span class="opt-tag">Optionnel</span></label>
       <div class="hint">Un problème spécifique, une situation récurrente...</div>
       <textarea id="f-libre" placeholder="Écrivez librement..."></textarea>
     </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(5,4)">← Retour</button>
-      <button class="btn-next" onclick="go(5,6)">Voir le récapitulatif →</button>
-    </div>
-  </div>
 
-  <!-- PAGE 6 -->
-  <div class="page" id="p6">
-    <div class="step-label">Étape 6 sur 6</div>
-    <div class="step-title">Récapitulatif</div>
-    <div class="step-sub">Vérifiez vos réponses avant envoi. Votre compte-rendu sera transmis pour analyse.</div>
     <div class="recap-box" id="recap-box"></div>
     <div class="send-state" id="send-loading">
       <div class="dots"><span>●</span><span>●</span><span>●</span></div>
@@ -352,8 +424,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="error-card" id="send-error">
       <p>Une erreur est survenue lors de l'envoi. Veuillez vérifier votre connexion et réessayer.</p>
     </div>
-    <div class="nav" id="nav-p6">
-      <button class="btn-back" onclick="go(6,5)">← Modifier</button>
+    <div class="nav" id="nav-p7">
+      <button class="btn-back" onclick="go(7,6)">← Modifier</button>
       <button class="btn-next" onclick="sendAudit()">Envoyer le compte-rendu →</button>
     </div>
   </div>
@@ -365,10 +437,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 <script>
 (function(){ emailjs.init('fDQdiX0mFcMadCESV'); })();
 
+var TOTAL_PAGES = 7;
+
 function buildProg(cur) {
   var p = document.getElementById('prog');
   p.innerHTML = '';
-  for (var i = 1; i <= 6; i++) {
+  for (var i = 1; i <= TOTAL_PAGES; i++) {
     var d = document.createElement('div');
     d.className = 'pd' + (i <= cur ? ' done' : '');
     p.appendChild(d);
@@ -380,7 +454,7 @@ function go(from, to) {
   document.getElementById('p'+to).classList.add('active');
   buildProg(to);
   window.scrollTo(0,0);
-  if (to === 6) buildRecap();
+  if (to === 7) buildRecap();
 }
 
 function selR(gid, el) {
@@ -416,6 +490,9 @@ function collectData() {
     temps: gR('rg-temps'), tache: gR('rg-tache'), transfo: gR('rg-transfo'),
     pb: gC('cg-pb'), err: gC('cg-err'),
     prio: gR('rg-prio'), ouv: gR('rg-ouv'), frein: gR('rg-frein'),
+    acquisition: gC('cg-acquisition'), web: gR('rg-web'),
+    fidelisation: gR('rg-fidelisation'), marge: gR('rg-marge'),
+    tauxhoraire: gR('rg-tauxhoraire'), pertemarge: gR('rg-pertemarge'),
     libre: document.getElementById('f-libre').value.trim() || 'Aucun'
   };
 }
@@ -427,7 +504,9 @@ function buildRecap() {
     { title: 'Devis et factures', rows: [['Outil devis', d.devis], ['Temps par devis', d.tdevis], ['Outil factures', d.facture], ['Relances impayés', d.relance]] },
     { title: 'Planning et communication', rows: [['Chantiers simultanés', d.nb], ['Gestion planning', d.planning], ['Suivi chantier', d.suivi], ['Intervenants', d.acteurs], ['Canal principal', d.canal]] },
     { title: 'Temps et problèmes', rows: [['Temps admin/semaine', d.temps], ['Tâche la plus lourde', d.tache], ['Taux transformation devis', d.transfo], ['Problèmes récurrents', d.pb], ['Erreurs / oublis', d.err]] },
-    { title: 'Objectifs', rows: [['Priorité principale', d.prio], ['Ouverture numérique', d.ouv], ['Frein principal', d.frein], ['Commentaire libre', d.libre]] }
+    { title: 'Objectifs', rows: [['Priorité principale', d.prio], ['Ouverture numérique', d.ouv], ['Frein principal', d.frein]] },
+    { title: 'Marketing et rentabilité', rows: [['Acquisition clients', d.acquisition], ['Présence en ligne', d.web], ['Fidélisation', d.fidelisation], ['Suivi des marges', d.marge], ['Taux horaire réel', d.tauxhoraire], ['Perte de marge sur chantier', d.pertemarge]] },
+    { title: 'Commentaire', rows: [['Informations complémentaires', d.libre]] }
   ];
   document.getElementById('recap-box').innerHTML = sections.map(function(s) {
     return '<div class="recap-section"><div class="recap-section-title">'+s.title+'</div>'+
@@ -437,9 +516,9 @@ function buildRecap() {
 
 function buildEmailBody(d) {
   return [
-    'AUDIT BTP — '+d.entreprise.toUpperCase(),
+    'AUDIT BTP — '+d.entreprise.toUpperCase(),'',
     '--- ENTREPRISE ---',
-    'Civilité :'+d.civilite, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise,
+    'Civilité : '+d.civilite, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise,
     'Effectif : '+d.taille, 'Ancienneté : '+d.anciennete, 'CA : '+d.ca,'',
     '--- DEVIS ET FACTURES ---',
     'Outil devis : '+d.devis, 'Temps par devis : '+d.tdevis,
@@ -453,13 +532,22 @@ function buildEmailBody(d) {
     'Problèmes : '+d.pb, 'Erreurs/oublis : '+d.err,'',
     '--- OBJECTIFS ---',
     'Priorité : '+d.prio, 'Ouverture numérique : '+d.ouv,
-    'Frein : '+d.frein, 'Commentaire : '+d.libre
+    'Frein : '+d.frein,'',
+    '--- MARKETING ET RENTABILITÉ ---',
+    'Acquisition clients : '+d.acquisition,
+    'Présence en ligne : '+d.web,
+    'Fidélisation : '+d.fidelisation,
+    'Suivi des marges : '+d.marge,
+    'Taux horaire réel : '+d.tauxhoraire,
+    'Perte de marge sur chantier : '+d.pertemarge,'',
+    '--- COMMENTAIRE LIBRE ---',
+    d.libre
   ].join('\n');
 }
 
 function sendAudit() {
   var d = collectData();
-  document.getElementById('nav-p6').style.display = 'none';
+  document.getElementById('nav-p7').style.display = 'none';
   document.getElementById('send-error').style.display = 'none';
   document.getElementById('send-loading').style.display = 'flex';
   emailjs.send('service_8c1q9uu', 'template_kbck1m5', {
@@ -472,7 +560,7 @@ function sendAudit() {
   }, function() {
     document.getElementById('send-loading').style.display = 'none';
     document.getElementById('send-error').style.display = 'block';
-    document.getElementById('nav-p6').style.display = 'flex';
+    document.getElementById('nav-p7').style.display = 'flex';
   });
 }
 
