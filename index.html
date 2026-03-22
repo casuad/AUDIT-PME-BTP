@@ -84,8 +84,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .error-card { background: #FDF0EE; border: 1px solid #F0B8AF; border-radius: 10px; padding: 1.25rem; display: none; }
 .error-card p { font-size: 13px; color: #C0442A; line-height: 1.6; }
 .footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #E8E4DE; font-size: 12px; color: #BBB; }
-  
-  /* Checkbox CGV */
+
+/* Checkbox CGV */
 .forma-cgv-wrapper {
   display: flex;
   align-items: flex-start;
@@ -116,9 +116,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   text-decoration: underline;
   font-weight: 500;
 }
-.forma-cgv-wrapper label a:hover {
-  color: #8C4420;
-}
+.forma-cgv-wrapper label a:hover { color: #8C4420; }
 .forma-cgv-error {
   display: none;
   color: #C1121F;
@@ -126,30 +124,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   margin-top: 4px;
   margin-bottom: 8px;
 }
- 
-/* Footer légal */
+
+/* Footer légal — CORRIGÉ : dans le container, pas en position fixe */
 .forma-legal-footer {
-  width: 100%;
-  padding: 20px 24px;
   margin-top: 40px;
-  background: #1A1A1A;
+  padding: 20px 0;
+  border-top: 1px solid #E8E4DE;
   text-align: center;
   font-size: 12px;
   color: #888;
   line-height: 1.8;
+  background: transparent;
 }
 .forma-legal-footer a {
   color: #B85C2A;
   text-decoration: none;
-  margin: 0 8px;
+  margin: 0 6px;
 }
-.forma-legal-footer a:hover {
-  text-decoration: underline;
-}
-.forma-legal-footer .forma-legal-sep {
-  color: #444;
-  margin: 0 4px;
-}
+.forma-legal-footer a:hover { text-decoration: underline; }
+.forma-legal-footer .forma-legal-sep { color: #CCC; margin: 0 2px; }
 </style>
 </head>
 <body>
@@ -177,8 +170,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="field"><label>Votre nom</label><input type="text" id="f-nom" placeholder="ex. Dupont" /></div>
     <div class="field"><label>Nom de l'entreprise</label><input type="text" id="f-entreprise" placeholder="ex. Carrelage Dupont" /></div>
     <div class="field">
-    <label>Votre corps de métier</label>
-    <input type="text" id="f-metier" placeholder="ex. Carreleur, Maçon, Électricien..." />
+      <label>Votre corps de métier</label>
+      <input type="text" id="f-metier" placeholder="ex. Carreleur, Maçon, Électricien..." />
     </div>
     <div class="field"><label>Nombre de personnes dans l'entreprise</label>
       <select id="f-taille">
@@ -400,12 +393,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     </div>
   </div>
 
-  <!-- PAGE 6 — MARKETING ET RENTABILITÉ -->
+  <!-- PAGE 6 -->
   <div class="page" id="p6">
     <div class="step-label">Étape 6 sur 7</div>
     <div class="step-title">Marketing et rentabilité</div>
     <div class="step-sub">Ces questions permettent d'évaluer votre visibilité et votre maîtrise des marges.</div>
-
     <div class="field"><label>Comment trouvez-vous vos nouveaux clients aujourd'hui ?</label>
       <div class="cg" id="cg-acquisition">
         <div class="ci" onclick="togC(this)"><span>Bouche-à-oreille uniquement</span></div>
@@ -416,7 +408,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ci" onclick="togC(this)"><span>Apporteurs d'affaires / partenaires</span></div>
       </div>
     </div>
-
     <div class="field"><label>Avez-vous un site web ou une présence en ligne active ?</label>
       <div class="rg" id="rg-web">
         <div class="ri" onclick="selR('rg-web',this)"><span>Oui, un site web à jour</span></div>
@@ -425,7 +416,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-web',this)"><span>Non, aucune présence en ligne</span></div>
       </div>
     </div>
-
     <div class="field"><label>Relancez-vous vos anciens clients pour de nouveaux chantiers ?</label>
       <div class="rg" id="rg-fidelisation">
         <div class="ri" onclick="selR('rg-fidelisation',this)"><span>Oui, régulièrement</span></div>
@@ -434,9 +424,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-fidelisation',this)"><span>Je ne travaille pas avec les mêmes clients plusieurs fois</span></div>
       </div>
     </div>
-
     <div class="divider"></div>
-
     <div class="field"><label>Suivez-vous votre marge par chantier ?</label>
       <div class="rg" id="rg-marge">
         <div class="ri" onclick="selR('rg-marge',this)"><span>Oui, systématiquement</span></div>
@@ -445,7 +433,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-marge',this)"><span>Non, je ne sais pas comment faire</span></div>
       </div>
     </div>
-
     <div class="field"><label>Avez-vous une idée de votre taux horaire réel ?</label>
       <div class="hint">Ce que vous gagnez réellement de l'heure, charges et temps admin déduits</div>
       <div class="rg" id="rg-tauxhoraire">
@@ -454,7 +441,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-tauxhoraire',this)"><span>Non, je n'ai jamais calculé</span></div>
       </div>
     </div>
-
     <div class="field"><label>Vous arrive-t-il de terminer un chantier en ayant perdu de l'argent par rapport au devis ?</label>
       <div class="rg" id="rg-pertemarge">
         <div class="ri" onclick="selR('rg-pertemarge',this)"><span>Oui, régulièrement</span></div>
@@ -463,7 +449,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-pertemarge',this)"><span>Non, jamais</span></div>
       </div>
     </div>
-
     <div class="nav">
       <button class="btn-back" onclick="go(6,5)">← Retour</button>
       <button class="btn-next" onclick="go(6,7)">Continuer →</button>
@@ -475,14 +460,27 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="step-label">Étape 7 sur 7</div>
     <div class="step-title">Récapitulatif</div>
     <div class="step-sub">Vérifiez vos réponses avant envoi. Votre compte-rendu sera transmis pour analyse.</div>
-
     <div class="field">
       <label>Autre chose à ajouter ? <span class="opt-tag">Optionnel</span></label>
       <div class="hint">Un problème spécifique, une situation récurrente...</div>
       <textarea id="f-libre" placeholder="Écrivez librement..."></textarea>
     </div>
-
     <div class="recap-box" id="recap-box"></div>
+
+    <!-- CHECKBOX CGV — placée ici dans le HTML, pas dans le script -->
+    <div class="forma-cgv-wrapper">
+      <input type="checkbox" id="cgv-accept" name="cgv_accept" />
+      <label for="cgv-accept">
+        En soumettant ce formulaire, je reconnais avoir lu et accepté les
+        <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">Conditions Générales de Vente</a>
+        de Forma. Je consens au traitement de mes données conformément à la
+        <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">Politique de confidentialité</a>.
+        Pour le Rapport d'Audit BTP (59€), je reconnais que la prestation est exécutée immédiatement après paiement et
+        <strong>renonce expressément à mon droit de rétractation de 14 jours</strong>.
+      </label>
+    </div>
+    <div class="forma-cgv-error" id="cgv-error">⚠ Veuillez accepter les conditions générales de vente pour continuer.</div>
+
     <div class="send-state" id="send-loading">
       <div class="dots"><span>●</span><span>●</span><span>●</span></div>
       <span style="margin-left:8px;">Envoi en cours...</span>
@@ -500,8 +498,27 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     </div>
   </div>
 
-  <div class="footer">Audit BTP — Diagnostic confidentiel</div>
-</div>
+  <!-- FOOTER LÉGAL — à l'intérieur du .container -->
+  <footer class="forma-legal-footer">
+    <div>
+      <strong style="color: #B85C2A;">FORMA</strong>
+      &nbsp;·&nbsp; Alexis Dumas, entrepreneur individuel
+      &nbsp;·&nbsp; SIRET 99185807700019
+      &nbsp;·&nbsp; 13 rue Marmontel — 63400 Chamalières
+    </div>
+    <div style="margin-top: 6px;">
+      <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">CGV</a>
+      <span class="forma-legal-sep">|</span>
+      <a href="FORMA_Documents_Legaux.pdf#page=3" target="_blank" rel="noopener">Mentions légales</a>
+      <span class="forma-legal-sep">|</span>
+      <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">Confidentialité</a>
+      <span class="forma-legal-sep">|</span>
+      <a href="mailto:contact@forma-batiment.fr">contact@forma-batiment.fr</a>
+    </div>
+    <div style="margin-top: 4px; font-size: 11px; color: #BBB;">© 2026 Forma — Analyse. Optimisation. Résultats.</div>
+  </footer>
+
+</div><!-- fin .container -->
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
@@ -601,47 +618,27 @@ function buildEmailBody(d) {
     'Taux transformation devis : '+d.transfo,
     'Problèmes : '+d.pb, 'Erreurs/oublis : '+d.err,'',
     '--- OBJECTIFS ---',
-    'Priorité : '+d.prio, 'Ouverture numérique : '+d.ouv,
-    'Frein : '+d.frein,'',
+    'Priorité : '+d.prio, 'Ouverture numérique : '+d.ouv, 'Frein : '+d.frein,'',
     '--- MARKETING ET RENTABILITÉ ---',
-    'Acquisition clients : '+d.acquisition,
-    'Présence en ligne : '+d.web,
-    'Fidélisation : '+d.fidelisation,
-    'Suivi des marges : '+d.marge,
-    'Taux horaire réel : '+d.tauxhoraire,
-    'Perte de marge sur chantier : '+d.pertemarge,'',
-    '--- COMMENTAIRE LIBRE ---',
-    d.libre
+    'Acquisition clients : '+d.acquisition, 'Présence en ligne : '+d.web,
+    'Fidélisation : '+d.fidelisation, 'Suivi des marges : '+d.marge,
+    'Taux horaire réel : '+d.tauxhoraire, 'Perte de marge sur chantier : '+d.pertemarge,'',
+    '--- COMMENTAIRE LIBRE ---', d.libre
   ].join('\n');
 }
 
-<div class="forma-cgv-wrapper">
-  <input
-    type="checkbox"
-    id="cgv-accept"
-    name="cgv_accept"
-    required
-  />
-  <label for="cgv-accept">
-    En soumettant ce formulaire, je reconnais avoir lu et accepté les
-    <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">
-      Conditions Générales de Vente
-    </a>
-    de Forma. Je consens au traitement de mes données personnelles
-    conformément à la
-    <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">
-      Politique de confidentialité
-    </a>.
-    Pour le Rapport d'Audit BTP (59€), je reconnais que la prestation
-    est exécutée immédiatement après paiement et
-    <strong>renonce expressément à mon droit de rétractation de 14 jours</strong>.
-  </label>
-</div>
-<div class="forma-cgv-error" id="cgv-error">
-  ⚠ Veuillez accepter les conditions générales de vente pour continuer.
-</div>
-  
 function sendAudit() {
+  var cgv = document.getElementById('cgv-accept');
+  var cgvError = document.getElementById('cgv-error');
+
+  if (!cgv.checked) {
+    cgvError.style.display = 'block';
+    cgv.closest('.forma-cgv-wrapper').style.borderLeftColor = '#C1121F';
+    cgv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  cgvError.style.display = 'none';
+
   var d = collectData();
   document.getElementById('nav-p7').style.display = 'none';
   document.getElementById('send-error').style.display = 'none';
@@ -662,66 +659,5 @@ function sendAudit() {
 
 buildProg(1);
 </script>
-
-  <footer class="forma-legal-footer">
-  <div>
-    <strong style="color: #B85C2A;">FORMA</strong>
-    &nbsp;·&nbsp;
-    Alexis Dumas, entrepreneur individuel
-    &nbsp;·&nbsp;
-    SIRET 99185807700019
-    &nbsp;·&nbsp;
-    13 rue Marmontel — 63400 Chamalières
-  </div>
-  <div style="margin-top: 6px;">
-    <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">Conditions Générales de Vente</a>
-    <span class="forma-legal-sep">|</span>
-    <a href="FORMA_Documents_Legaux.pdf#page=3" target="_blank" rel="noopener">Mentions légales</a>
-    <span class="forma-legal-sep">|</span>
-    <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">Politique de confidentialité</a>
-    <span class="forma-legal-sep">|</span>
-    <a href="mailto:contact@forma-batiment.fr">contact@forma-batiment.fr</a>
-  </div>
-  <div style="margin-top: 6px; font-size: 11px; color: #555;">
-    © 2026 Forma — Analyse. Optimisation. Résultats.
-  </div>
-</footer>
-
-  <script>
-(function() {
-  // Attendre que le DOM soit prêt
-  document.addEventListener('DOMContentLoaded', function() {
- 
-    // Récupérer le formulaire — adapter l'id si nécessaire
-    var form = document.querySelector('form') || document.getElementById('audit-form');
-    var cgvCheckbox = document.getElementById('cgv-accept');
-    var cgvError    = document.getElementById('cgv-error');
- 
-    if (!form || !cgvCheckbox) return;
- 
-    form.addEventListener('submit', function(e) {
-      if (!cgvCheckbox.checked) {
-        e.preventDefault();
-        cgvError.style.display = 'block';
-        cgvCheckbox.closest('.forma-cgv-wrapper').style.borderLeftColor = '#C1121F';
-        cgvCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return false;
-      }
-      // CGV acceptées — laisser le formulaire se soumettre normalement
-      cgvError.style.display = 'none';
-    });
- 
-    // Masquer l'erreur dès que l'utilisateur coche
-    cgvCheckbox.addEventListener('change', function() {
-      if (cgvCheckbox.checked) {
-        cgvError.style.display = 'none';
-        cgvCheckbox.closest('.forma-cgv-wrapper').style.borderLeftColor = '#B85C2A';
-      }
-    });
-  });
-})();
-</script>
- 
-  
 </body>
 </html>
