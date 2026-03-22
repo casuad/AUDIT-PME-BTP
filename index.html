@@ -84,6 +84,72 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .error-card { background: #FDF0EE; border: 1px solid #F0B8AF; border-radius: 10px; padding: 1.25rem; display: none; }
 .error-card p { font-size: 13px; color: #C0442A; line-height: 1.6; }
 .footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #E8E4DE; font-size: 12px; color: #BBB; }
+  
+  /* Checkbox CGV */
+.forma-cgv-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 20px 0 16px 0;
+  padding: 14px 16px;
+  background: #FAFAF8;
+  border: 1px solid #D5D3CF;
+  border-left: 4px solid #B85C2A;
+  border-radius: 6px;
+}
+.forma-cgv-wrapper input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 2px;
+  accent-color: #B85C2A;
+  cursor: pointer;
+}
+.forma-cgv-wrapper label {
+  font-size: 13px;
+  color: #1A1A1A;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.forma-cgv-wrapper label a {
+  color: #B85C2A;
+  text-decoration: underline;
+  font-weight: 500;
+}
+.forma-cgv-wrapper label a:hover {
+  color: #8C4420;
+}
+.forma-cgv-error {
+  display: none;
+  color: #C1121F;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+ 
+/* Footer légal */
+.forma-legal-footer {
+  width: 100%;
+  padding: 20px 24px;
+  margin-top: 40px;
+  background: #1A1A1A;
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.8;
+}
+.forma-legal-footer a {
+  color: #B85C2A;
+  text-decoration: none;
+  margin: 0 8px;
+}
+.forma-legal-footer a:hover {
+  text-decoration: underline;
+}
+.forma-legal-footer .forma-legal-sep {
+  color: #444;
+  margin: 0 4px;
+}
 </style>
 </head>
 <body>
@@ -549,6 +615,32 @@ function buildEmailBody(d) {
   ].join('\n');
 }
 
+<div class="forma-cgv-wrapper">
+  <input
+    type="checkbox"
+    id="cgv-accept"
+    name="cgv_accept"
+    required
+  />
+  <label for="cgv-accept">
+    En soumettant ce formulaire, je reconnais avoir lu et accepté les
+    <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">
+      Conditions Générales de Vente
+    </a>
+    de Forma. Je consens au traitement de mes données personnelles
+    conformément à la
+    <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">
+      Politique de confidentialité
+    </a>.
+    Pour le Rapport d'Audit BTP (59€), je reconnais que la prestation
+    est exécutée immédiatement après paiement et
+    <strong>renonce expressément à mon droit de rétractation de 14 jours</strong>.
+  </label>
+</div>
+<div class="forma-cgv-error" id="cgv-error">
+  ⚠ Veuillez accepter les conditions générales de vente pour continuer.
+</div>
+  
 function sendAudit() {
   var d = collectData();
   document.getElementById('nav-p7').style.display = 'none';
@@ -570,5 +662,66 @@ function sendAudit() {
 
 buildProg(1);
 </script>
+
+  <footer class="forma-legal-footer">
+  <div>
+    <strong style="color: #B85C2A;">FORMA</strong>
+    &nbsp;·&nbsp;
+    Alexis Dumas, entrepreneur individuel
+    &nbsp;·&nbsp;
+    SIRET 99185807700019
+    &nbsp;·&nbsp;
+    13 rue Marmontel — 63400 Chamalières
+  </div>
+  <div style="margin-top: 6px;">
+    <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">Conditions Générales de Vente</a>
+    <span class="forma-legal-sep">|</span>
+    <a href="FORMA_Documents_Legaux.pdf#page=3" target="_blank" rel="noopener">Mentions légales</a>
+    <span class="forma-legal-sep">|</span>
+    <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">Politique de confidentialité</a>
+    <span class="forma-legal-sep">|</span>
+    <a href="mailto:contact@forma-batiment.fr">contact@forma-batiment.fr</a>
+  </div>
+  <div style="margin-top: 6px; font-size: 11px; color: #555;">
+    © 2026 Forma — Analyse. Optimisation. Résultats.
+  </div>
+</footer>
+
+  <script>
+(function() {
+  // Attendre que le DOM soit prêt
+  document.addEventListener('DOMContentLoaded', function() {
+ 
+    // Récupérer le formulaire — adapter l'id si nécessaire
+    var form = document.querySelector('form') || document.getElementById('audit-form');
+    var cgvCheckbox = document.getElementById('cgv-accept');
+    var cgvError    = document.getElementById('cgv-error');
+ 
+    if (!form || !cgvCheckbox) return;
+ 
+    form.addEventListener('submit', function(e) {
+      if (!cgvCheckbox.checked) {
+        e.preventDefault();
+        cgvError.style.display = 'block';
+        cgvCheckbox.closest('.forma-cgv-wrapper').style.borderLeftColor = '#C1121F';
+        cgvCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
+      // CGV acceptées — laisser le formulaire se soumettre normalement
+      cgvError.style.display = 'none';
+    });
+ 
+    // Masquer l'erreur dès que l'utilisateur coche
+    cgvCheckbox.addEventListener('change', function() {
+      if (cgvCheckbox.checked) {
+        cgvError.style.display = 'none';
+        cgvCheckbox.closest('.forma-cgv-wrapper').style.borderLeftColor = '#B85C2A';
+      }
+    });
+  });
+})();
+</script>
+ 
+  
 </body>
 </html>
