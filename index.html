@@ -44,6 +44,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   font-family: inherit; background: #fff;
 }
 .ri.on textarea.rev { display: block; }
+.ci textarea.rev {
+  width: 100%; height: 52px; resize: none; font-size: 13px; display: none;
+  margin-top: 10px; padding: 8px 10px; border: 1px solid #E0DAD2; border-radius: 6px;
+  font-family: inherit; background: #fff;
+}
+.ci.on textarea.rev { display: block; }
 .opt-tag {
   display: inline-block; font-size: 11px; color: #AAA; background: #F5F0EB;
   border: 1px solid #E0DAD2; border-radius: 20px; padding: 2px 8px; margin-left: 8px; vertical-align: middle;
@@ -339,6 +345,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ci" onclick="togC(this)"><span>Je manque de visibilité sur mon planning</span></div>
         <div class="ci" onclick="togC(this)"><span>Je perds des informations entre le chantier et le bureau</span></div>
         <div class="ci" onclick="togC(this)"><span>Je n'ai pas le temps de relancer mes clients</span></div>
+        <div class="ci" onclick="togC(this)"><span>Autre</span><textarea class="rev" placeholder="Décrivez la situation..." onclick="event.stopPropagation()"></textarea></div>
       </div>
     </div>
     <div class="field"><label>Erreurs ou oublis qui vous arrivent</label>
@@ -348,6 +355,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ci" onclick="togC(this)"><span>Perdre un bon de commande ou un document client</span></div>
         <div class="ci" onclick="togC(this)"><span>Envoyer un devis en retard et perdre le chantier</span></div>
         <div class="ci" onclick="togC(this)"><span>Ne pas savoir où en est une facture envoyée</span></div>
+        <div class="ci" onclick="togC(this)"><span>Autre</span><textarea class="rev" placeholder="Décrivez l'erreur ou l'oubli..." onclick="event.stopPropagation()"></textarea></div>
       </div>
     </div>
     <div class="nav">
@@ -461,9 +469,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     <div class="step-title">Récapitulatif</div>
     <div class="step-sub">Vérifiez vos réponses avant envoi. Votre compte-rendu sera transmis pour analyse.</div>
     <div class="field">
-      <label>Autre chose à ajouter ? <span class="opt-tag">Optionnel</span></label>
-      <div class="hint">Un problème spécifique, une situation récurrente...</div>
-      <textarea id="f-libre" placeholder="Écrivez librement..."></textarea>
+      <label>Une tâche qui vous prend la tête ? <span class="opt-tag">Optionnel</span></label>
+      <div class="hint">Une tâche récurrente, fastidieuse, qui vous coûte du temps sans vraiment avancer votre activité. Même si elle vous semble mineure, c'est souvent là que se trouvent les gains les plus rapides.</div>
+      <textarea id="f-libre" placeholder="Ex : je passe 30 minutes à retrouver les coordonnées d'un client à chaque fois, je ressaisis les mêmes infos dans trois endroits différents, je rappelle toujours les mêmes fournisseurs pour les mêmes commandes..."></textarea>
     </div>
     <div class="recap-box" id="recap-box"></div>
 
@@ -502,11 +510,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <footer class="forma-legal-footer">
     <div>
       <strong style="color: #B85C2A;">FORMA</strong>
-      &nbsp;·&nbsp; Alexis Dumas, entrepreneur individuel
-      &nbsp;·&nbsp; SIRET 99185807700019
-      &nbsp;·&nbsp; 13 rue Marmontel — 63400 Chamalières
-    </div>
-    <div style="margin-top: 6px;">
+      <span class="forma-legal-sep">&nbsp;·&nbsp;</span>
       <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">CGV</a>
       <span class="forma-legal-sep">|</span>
       <a href="FORMA_Documents_Legaux.pdf#page=3" target="_blank" rel="noopener">Mentions légales</a>
@@ -515,7 +519,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <span class="forma-legal-sep">|</span>
       <a href="mailto:contact@forma-batiment.fr">contact@forma-batiment.fr</a>
     </div>
-    <div style="margin-top: 4px; font-size: 11px; color: #BBB;">© 2026 Forma — Analyse. Optimisation. Résultats.</div>
   </footer>
 
 </div><!-- fin .container -->
