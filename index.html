@@ -181,6 +181,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <label>Votre corps de métier</label>
       <input type="text" id="f-metier" placeholder="ex. Carreleur, Maçon, Électricien..." />
     </div>
+    <div class="field">
+    <label>Département d'activité</label>
+    <input type="text" id="f-departement" placeholder="ex. 63, Puy-de-Dôme, Barcelone..." />
+    </div>
     <div class="field"><label>Nombre de personnes dans l'entreprise</label>
       <select id="f-taille">
         <option value="">Sélectionner</option>
@@ -574,8 +578,7 @@ function gV(id) { return document.getElementById(id).value.trim() || 'Non rensei
 
 function collectData() {
   return {
-    civilite: gR('rg-civilite'), nom: gV('f-nom'), entreprise: gV('f-entreprise'), metier: gV('f-metier'),
-    taille: gV('f-taille'), anciennete: gV('f-anciennete'), ca: gV('f-ca'),
+civilite: gR('rg-civilite'), nom: gV('f-nom'), entreprise: gV('f-entreprise'), metier: gV('f-metier'), departement: gV('f-departement'),    taille: gV('f-taille'), anciennete: gV('f-anciennete'), ca: gV('f-ca'),
     devis: gR('rg-devis'), tdevis: gR('rg-tdevis'),
     facture: gR('rg-facture'), relance: gR('rg-relance'),
     nb: gR('rg-nb'), planning: gR('rg-planning'),
@@ -593,7 +596,7 @@ function collectData() {
 function buildRecap() {
   var d = collectData();
   var sections = [
-    { title: 'Entreprise', rows: [['Nom', d.nom], ['Entreprise', d.entreprise], ['Corps de métier', d.metier], ['Effectif', d.taille], ['Ancienneté', d.anciennete], ['CA approximatif', d.ca]] },
+    { title: 'Entreprise', rows: [['Nom', d.nom], ['Entreprise', d.entreprise], ['Corps de métier', d.metier],['Département', d.departement], ['Effectif', d.taille], ['Ancienneté', d.anciennete], ['CA approximatif', d.ca]] },
     { title: 'Devis et factures', rows: [['Outil devis', d.devis], ['Temps par devis', d.tdevis], ['Outil factures', d.facture], ['Relances impayés', d.relance]] },
     { title: 'Planning et communication', rows: [['Chantiers simultanés', d.nb], ['Gestion planning', d.planning], ['Suivi chantier', d.suivi], ['Intervenants', d.acteurs], ['Canal principal', d.canal]] },
     { title: 'Temps et problèmes', rows: [['Temps admin/semaine', d.temps], ['Tâche la plus lourde', d.tache], ['Taux transformation devis', d.transfo], ['Problèmes récurrents', d.pb], ['Erreurs / oublis', d.err]] },
@@ -611,7 +614,7 @@ function buildEmailBody(d) {
   return [
     'AUDIT BTP — '+d.entreprise.toUpperCase(),'',
     '--- ENTREPRISE ---',
-    'Civilité : '+d.civilite, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise, 'Corps de métier : '+d.metier,
+    'Civilité : '+d.civilite, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise, 'Corps de métier : '+d.metier,'Département : '+d.departement,
     'Effectif : '+d.taille, 'Ancienneté : '+d.anciennete, 'CA : '+d.ca,'',
     '--- DEVIS ET FACTURES ---',
     'Outil devis : '+d.devis, 'Temps par devis : '+d.tdevis,
