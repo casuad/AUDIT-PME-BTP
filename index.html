@@ -482,19 +482,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
     </div>
     <div class="recap-box" id="recap-box"></div>
 
-    <!-- CHECKBOX CGV — placée ici dans le HTML, pas dans le script -->
-    <div class="forma-cgv-wrapper">
-      <input type="checkbox" id="cgv-accept" name="cgv_accept" />
-      <label for="cgv-accept">
-        En soumettant ce formulaire, je reconnais avoir lu et accepté les
-        <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">Conditions Générales de Vente</a>
-        de Forma. Je consens au traitement de mes données conformément à la
-        <a href="FORMA_Documents_Legaux.pdf#page=4" target="_blank" rel="noopener">Politique de confidentialité</a>.
-        Pour le Rapport d'Audit BTP (59€), je reconnais que la prestation est exécutée immédiatement après paiement et
-        <strong>renonce expressément à mon droit de rétractation de 14 jours</strong>.
-      </label>
-    </div>
-    <div class="forma-cgv-error" id="cgv-error">⚠ Veuillez accepter les conditions générales de vente pour continuer.</div>
+   <!-- CHECKBOX CGV — placée ici dans le HTML, pas dans le script -->
+<div class="forma-cgv-wrapper">
+  <input type="checkbox" id="cgv-accept" name="cgv_accept" />
+  <label for="cgv-accept">
+    J'accepte les <a href="FORMA_Documents_Legaux.pdf" target="_blank" rel="noopener">Conditions Générales de Vente</a> de Forma.
+  </label>
+</div>
+<div class="forma-cgv-error" id="cgv-error">⚠ Veuillez accepter les conditions générales de vente pour continuer.</div>
 
     <div class="send-state" id="send-loading">
       <div class="dots"><span>●</span><span>●</span><span>●</span></div>
