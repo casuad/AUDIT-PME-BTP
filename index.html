@@ -324,13 +324,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-temps',this)"><span>Plus de 10h</span></div>
       </div>
     </div>
-    <div class="field"><label>Tâche la plus chronophage</label>
-      <div class="rg" id="rg-tache">
-        <div class="ri" onclick="selR('rg-tache',this)"><span>Faire les devis</span></div>
-        <div class="ri" onclick="selR('rg-tache',this)"><span>Facturer et relancer les clients</span></div>
-        <div class="ri" onclick="selR('rg-tache',this)"><span>Gérer le planning et les chantiers</span></div>
-        <div class="ri" onclick="selR('rg-tache',this)"><span>Répondre aux clients et intervenants</span></div>
-        <div class="ri" onclick="selR('rg-tache',this)"><span>Gérer les achats et les stocks</span></div>
+        <div class="field"><label>Tâches les plus chronophages</label>
+          <div class="hint">Cochez tout ce qui s'applique</div>
+          <div class="cg" id="cg-tache">
+            <div class="ci" onclick="togC(this)"><span>Faire les devis</span></div>
+            <div class="ci" onclick="togC(this)"><span>Facturer et relancer les clients</span></div>
+            <div class="ci" onclick="togC(this)"><span>Gérer le planning et les chantiers</span></div>
+            <div class="ci" onclick="togC(this)"><span>Répondre aux clients et intervenants</span></div>
+            <div class="ci" onclick="togC(this)"><span>Gérer les achats et les stocks</span></div>
       </div>
     </div>
     <div class="divider"></div>
@@ -393,13 +394,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <div class="ri" onclick="selR('rg-ouv',this)"><span>Non, je préfère mes méthodes actuelles</span></div>
       </div>
     </div>
-    <div class="field"><label>Votre principal frein à utiliser un outil numérique aujourd'hui</label>
-      <div class="rg" id="rg-frein">
-        <div class="ri" onclick="selR('rg-frein',this)"><span>Pas le temps de l'apprendre</span></div>
-        <div class="ri" onclick="selR('rg-frein',this)"><span>Le coût</span></div>
-        <div class="ri" onclick="selR('rg-frein',this)"><span>Je ne vois pas ce que ça m'apporterait concrètement</span></div>
-        <div class="ri" onclick="selR('rg-frein',this)"><span>J'ai déjà essayé et abandonné</span></div>
-        <div class="ri" onclick="selR('rg-frein',this)"><span>Je n'ai pas de frein particulier</span></div>
+    <div class="field"><label>Vos freins à utiliser un outil numérique aujourd'hui</label>
+      <div class="hint">Cochez tout ce qui s'applique</div>
+      <div class="cg" id="cg-frein">
+        <div class="ci" onclick="togC(this)"><span>Pas le temps de l'apprendre</span></div>
+        <div class="ci" onclick="togC(this)"><span>Le coût</span></div>
+        <div class="ci" onclick="togC(this)"><span>Je ne vois pas ce que ça m'apporterait concrètement</span></div>
+        <div class="ci" onclick="togC(this)"><span>J'ai déjà essayé et abandonné</span></div>
+        <div class="ci" onclick="togC(this)"><span>Je n'ai pas de frein particulier</span></div>
       </div>
     </div>
     <div class="nav">
@@ -580,9 +582,9 @@ civilite: gR('rg-civilite'), nom: gV('f-nom'), entreprise: gV('f-entreprise'), m
     facture: gR('rg-facture'), relance: gR('rg-relance'),
     nb: gR('rg-nb'), planning: gR('rg-planning'),
     suivi: gR('rg-suivi'), acteurs: gC('cg-acteurs'), canal: gR('rg-canal'),
-    temps: gR('rg-temps'), tache: gR('rg-tache'), transfo: gR('rg-transfo'),
+    temps: gR('rg-temps'), tache: gC('cg-tache'), transfo: gR('rg-transfo'),
     pb: gC('cg-pb'), err: gC('cg-err'),
-    prio: gC('cg-prio'), ouv: gR('rg-ouv'), frein: gR('rg-frein'),
+    prio: gC('cg-prio'), ouv: gR('rg-ouv'), frein: gC('cg-frein'),
     acquisition: gC('cg-acquisition'), web: gR('rg-web'),
     fidelisation: gR('rg-fidelisation'), marge: gR('rg-marge'),
     tauxhoraire: gR('rg-tauxhoraire'), pertemarge: gR('rg-pertemarge'),
