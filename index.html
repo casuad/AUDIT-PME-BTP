@@ -578,7 +578,7 @@ function gV(id) { return document.getElementById(id).value.trim() || 'Non rensei
 
 function collectData() {
   return {
-civilite: gR('rg-civilite'), nom: gV('f-nom'), entreprise: gV('f-entreprise'), metier: gV('f-metier'), departement: gV('f-departement'),    taille: gV('f-taille'), anciennete: gV('f-anciennete'), ca: gV('f-ca'),
+civilite: gR('rg-civilite'), email: document.getElementById('f-email-hidden').value.trim() || 'Non renseigné', nom: gV('f-nom'), entreprise: gV('f-entreprise'), metier: gV('f-metier'), departement: gV('f-departement'),    taille: gV('f-taille'), anciennete: gV('f-anciennete'), ca: gV('f-ca'),
     devis: gR('rg-devis'), tdevis: gR('rg-tdevis'),
     facture: gR('rg-facture'), relance: gR('rg-relance'),
     nb: gR('rg-nb'), planning: gR('rg-planning'),
@@ -614,7 +614,7 @@ function buildEmailBody(d) {
   return [
     'AUDIT BTP — '+d.entreprise.toUpperCase(),'',
     '--- ENTREPRISE ---',
-    'Civilité : '+d.civilite, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise, 'Corps de métier : '+d.metier,'Département : '+d.departement,
+    'Civilité : '+d.civilite, 'Email : '+d.email, 'Nom : '+d.nom, 'Entreprise : '+d.entreprise, 'Corps de métier : '+d.metier,'Département : '+d.departement,
     'Effectif : '+d.taille, 'Ancienneté : '+d.anciennete, 'CA : '+d.ca,'',
     '--- DEVIS ET FACTURES ---',
     'Outil devis : '+d.devis, 'Temps par devis : '+d.tdevis,
