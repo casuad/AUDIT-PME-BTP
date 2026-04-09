@@ -102,12 +102,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .question-label { display: block; font-size: 13px; color: #555; margin-bottom: 10px; font-weight: 400; }
 .radio-group { display: flex; flex-direction: column; gap: 8px; }
 .radio-option {
-  display: flex; align-items: center; gap: 10px;
+  display: block;
   padding: 11px 16px; border: 1px solid #E0DAD2; border-radius: 8px;
   cursor: pointer; transition: all 0.15s; background: #fff; font-size: 14px; color: #333;
 }
 .radio-option:hover { border-color: #C97A4A; background: #FDF8F5; }
-.radio-option input[type="radio"] { accent-color: #B85C2A; width: 16px; height: 16px; cursor: pointer; }
+.radio-option input[type="radio"] { display: none; }
 .radio-option:has(input:checked) { border-color: #B85C2A; background: #FDF3EC; }
 .legal-footer {
   margin-top: 40px; padding: 20px 0;
