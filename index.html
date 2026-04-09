@@ -98,6 +98,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .cgv-wrapper label a { color: #B85C2A; text-decoration: underline; font-weight: 500; }
 .cgv-wrapper label a:hover { color: #8C4420; }
 .cgv-error { display: none; color: #C1121F; font-size: 12px; margin-top: 4px; margin-bottom: 8px; }
+.question-block { margin-bottom: 1.25rem; }
+.question-label { display: block; font-size: 13px; color: #555; margin-bottom: 10px; font-weight: 400; }
+.radio-group { display: flex; flex-direction: column; gap: 8px; }
+.radio-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; border: 1px solid #E0DAD2; border-radius: 8px;
+  cursor: pointer; transition: all 0.15s; background: #fff; font-size: 14px; color: #333;
+}
+.radio-option:hover { border-color: #C97A4A; background: #FDF8F5; }
+.radio-option input[type="radio"] { accent-color: #B85C2A; width: 16px; height: 16px; cursor: pointer; }
+.radio-option:has(input:checked) { border-color: #B85C2A; background: #FDF3EC; }
 .legal-footer {
   margin-top: 40px; padding: 20px 0;
   border-top: 1px solid #E8E4DE; text-align: center;
@@ -636,9 +647,13 @@ function collectData() {
     ca:           gV('f-ca'),
     devis:        gR('rg-devis'),
     tdevis:       gR('rg-tdevis'),
+    devis_mois:   (document.querySelector('input[name="devis_par_mois"]:checked') || {value:'Non renseigné'}).value,
     facture:      gR('rg-facture'),
     relance:      gR('rg-relance'),
+    devis_mois:   (document.querySelector('input[name="devis_par_mois"]:checked') || {value:'Non renseigné'}).value,
+    chantiers_an: (document.querySelector('input[name="chantiers_par_an"]:checked') || {value:'Non renseigné'}).value,
     nb:           gR('rg-nb'),
+    chantiers_an: (document.querySelector('input[name="chantiers_par_an"]:checked') || {value:'Non renseigné'}).value,
     planning:     gR('rg-planning'),
     suivi:        gR('rg-suivi'),
     acteurs:      gC('cg-acteurs'),
@@ -671,10 +686,14 @@ function buildRecap() {
     ]},
     { title: 'Devis et factures', rows: [
       ['Outil devis', d.devis], ['Temps par devis', d.tdevis],
+      ['Devis par mois', d.devis_mois],
       ['Outil factures', d.facture], ['Relances impayés', d.relance]
     ]},
     { title: 'Planning et communication', rows: [
-      ['Chantiers simultanés', d.nb], ['Gestion planning', d.planning],
+      ['Chantiers simultanés', d.nb],
+      ['Chantiers par an', d.chantiers_an],
+      ['Chantiers par an', d.chantiers_an],
+      ['Gestion planning', d.planning],
       ['Suivi chantier', d.suivi], ['Intervenants', d.acteurs], ['Canal principal', d.canal]
     ]},
     { title: 'Temps et problèmes', rows: [
@@ -715,10 +734,14 @@ function buildEmailBody(d) {
     '--- DEVIS ET FACTURES ---',
     'Outil devis : ' + d.devis,
     'Temps par devis : ' + d.tdevis,
+    'Devis par mois : ' + d.devis_mois,
+    'Devis par mois : ' + d.devis_mois,
     'Outil factures : ' + d.facture,
     'Relances impayés : ' + d.relance, '',
     '--- PLANNING ET COMMUNICATION ---',
     'Chantiers simultanés : ' + d.nb,
+    'Chantiers par an : ' + d.chantiers_an,
+    'Chantiers par an : ' + d.chantiers_an,
     'Planning : ' + d.planning,
     'Suivi chantier : ' + d.suivi,
     'Intervenants : ' + d.acteurs,
