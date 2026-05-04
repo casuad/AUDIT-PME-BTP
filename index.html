@@ -189,16 +189,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       </select>
     </div>
     <div class="field">
-      <label>Chiffre d'affaires annuel approximatif</label>
-      <select id="f-ca">
-        <option value="">Sélectionner</option>
-        <option>Moins de 50 000 €</option>
-        <option>50 000 à 100 000 €</option>
-        <option>100 000 à 200 000 €</option>
-        <option>200 000 à 500 000 €</option>
-        <option>Plus de 500 000 €</option>
-      </select>
-    </div>
+  <label>Chiffre d'affaires annuel approximatif</label>
+  <div class="hint">Saisir en euros, arrondi à 20 000 € près (ex : 180000)</div>
+  <input type="number" id="f-ca" placeholder="ex. 180000" min="0" step="20000" />
+  </div>
     <div class="nav"><button class="btn-next" onclick="go(1,2)">Continuer →</button></div>
   </div>
 
@@ -682,7 +676,7 @@ function buildRecap() {
     { title: 'Entreprise', rows: [
       ['Civilité', d.civilite], ['Nom', d.nom], ['Email', d.email],
       ['Entreprise', d.entreprise], ['Corps de métier', d.metier], ['Département', d.departement],
-      ['Effectif', d.taille], ['Ancienneté', d.anciennete], ['CA approximatif', d.ca]
+      ['Effectif', d.taille], ['Ancienneté', d.anciennete], ['CA approximatif', d.ca ? Number(d.ca).toLocaleString('fr-FR') + ' €' : 'Non renseigné']
     ]},
     { title: 'Devis et factures', rows: [
       ['Outil devis', d.devis], ['Temps par devis', d.tdevis],
@@ -730,7 +724,7 @@ function buildEmailBody(d) {
     'Département : ' + d.departement,
     'Effectif : ' + d.taille,
     'Ancienneté : ' + d.anciennete,
-    'CA : ' + d.ca, '',
+    'CA : ' + (d.ca ? Number(d.ca).toLocaleString('fr-FR') + ' €' : 'Non renseigné'), '',    
     '--- DEVIS ET FACTURES ---',
     'Outil devis : ' + d.devis,
     'Temps par devis : ' + d.tdevis,
