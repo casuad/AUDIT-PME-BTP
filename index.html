@@ -149,6 +149,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <label>Votre adresse email</label>
       <input type="email" id="f-email" placeholder="ex. contact@entreprise.fr" />
     </div>
+    <div class="field">
+      <label>Votre numéro de téléphone</label>
+      <input type="tel" id="f-tel" placeholder="ex. 06 12 34 56 78" />
+    </div>
     <div class="field"><label>Nom de l'entreprise</label><input type="text" id="f-entreprise" placeholder="ex. Carrelage Dupont" /></div>
     <div class="field">
       <label>Votre corps de métier (ou principal si multi-activité)</label>
@@ -593,6 +597,11 @@ function go(from, to) {
       alert('Merci de renseigner votre adresse email.');
       return;
     }
+    var tel = document.getElementById('f-tel').value.trim();
+    if (!tel) {
+      alert('Merci de renseigner votre numéro de téléphone.');
+      return;
+    }
   }
   document.getElementById('p' + from).classList.remove('active');
   document.getElementById('p' + to).classList.add('active');
@@ -632,6 +641,7 @@ function collectData() {
   return {
     civilite:     gR('rg-civilite'),
     email:        gV('f-email'),
+    tel:          gV('f-tel'),
     nom:          gV('f-nom'),
     entreprise:   gV('f-entreprise'),
     metier:       gV('f-metier'),
@@ -674,7 +684,7 @@ function buildRecap() {
   var d = collectData();
   var sections = [
     { title: 'Entreprise', rows: [
-      ['Civilité', d.civilite], ['Nom', d.nom], ['Email', d.email],
+      ['Civilité', d.civilite], ['Nom', d.nom], ['Email', d.email], ['Téléphone', d.tel],
       ['Entreprise', d.entreprise], ['Corps de métier', d.metier], ['Département', d.departement],
       ['Effectif', d.taille], ['Ancienneté', d.anciennete], ['CA approximatif', d.ca ? Number(d.ca).toLocaleString('fr-FR') + ' €' : 'Non renseigné']
     ]},
@@ -718,6 +728,7 @@ function buildEmailBody(d) {
     '--- ENTREPRISE ---',
     'Civilité : ' + d.civilite,
     'Email : ' + d.email,
+    'Téléphone : ' + d.tel,
     'Nom : ' + d.nom,
     'Entreprise : ' + d.entreprise,
     'Corps de métier : ' + d.metier,
