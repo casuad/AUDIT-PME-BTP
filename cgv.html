@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Conditions Générales de Vente — Forma</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--accent:#B85C2A;--dark:#1A1A1A;--bg:#FAFAF8;--fg:#1A1A1A;--fg2:#333;--fg3:#666;--border:rgba(51,51,51,.11)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--fg);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(250,250,248,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:'Krona One',sans-serif;font-size:18px;color:var(--fg);text-decoration:none;letter-spacing:-.02em}
+    .nav-logo strong{font-weight:700}
+    .nav-meta{font-size:12px;color:var(--fg3);font-weight:300}
+
+    /* LAYOUT */
+    main{max-width:780px;margin:0 auto;padding:64px 48px 96px}
+    .doc-header{margin-bottom:56px;padding-bottom:40px;border-bottom:2px solid var(--dark)}
+    .doc-label{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+    .doc-label::before{content:'';display:inline-block;width:20px;height:2px;background:var(--accent)}
+    h1{font-family:'Krona One',sans-serif;font-size:clamp(26px,3.5vw,38px);line-height:1.08;color:var(--fg);margin-bottom:20px;letter-spacing:-.02em}
+    .doc-intro{font-size:15px;font-weight:300;color:var(--fg3);max-width:600px;line-height:1.75}
+
+    /* IDENTITY TABLE */
+    .id-table{width:100%;border-collapse:collapse;margin:40px 0 56px;font-size:14px}
+    .id-table td{padding:12px 16px;border:1px solid var(--border);line-height:1.5}
+    .id-table td:first-child{font-weight:500;color:var(--fg2);background:rgba(26,26,26,.02);width:38%}
+    .id-table td:last-child{color:var(--fg3);font-weight:300}
+
+    /* ARTICLES */
+    article{margin-bottom:48px}
+    h2{font-family:'Krona One',sans-serif;font-size:15px;color:var(--fg);margin-bottom:14px;letter-spacing:.01em;padding-bottom:10px;border-bottom:1px solid var(--border)}
+    p{color:var(--fg2);font-weight:300;margin-bottom:12px;font-size:15px}
+    p:last-child{margin-bottom:0}
+    ul{margin:12px 0 12px 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+    ul li{font-size:15px;font-weight:300;color:var(--fg2);padding-left:20px;position:relative;line-height:1.6}
+    ul li::before{content:'—';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .highlight{background:rgba(184,92,42,.06);border-left:3px solid var(--accent);padding:16px 20px;border-radius:0 6px 6px 0;font-size:14px;color:var(--fg2);margin:16px 0}
+
+    /* FOOTER */
+    footer{background:var(--dark);padding:40px 48px}
+    .footer-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+    .footer-copy{font-size:12px;color:rgba(250,250,248,.35);font-weight:300}
+    .footer-nav{display:flex;gap:20px;flex-wrap:wrap}
+    .footer-nav a{font-size:12px;color:rgba(250,250,248,.45);text-decoration:none;transition:color .2s}
+    .footer-nav a:hover{color:var(--accent)}
+    .footer-nav a.active{color:rgba(250,250,248,.85)}
+
+    @media(max-width:768px){
+      nav{padding:12px 20px}
+      main{padding:48px 20px 72px}
+      footer{padding:32px 20px}
+      .footer-inner{flex-direction:column;align-items:flex-start;gap:16px}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://www.forma-batiment.fr" class="nav-logo"><strong>for</strong>ma</a>
+  <span class="nav-meta">CGV — Version 2.0 — mai 2026</span>
+</nav>
+
+<main>
+  <div class="doc-header">
+    <p class="doc-label">Documents légaux</p>
+    <h1>Conditions Générales de Vente</h1>
+    <p class="doc-intro">Ces CGV s'appliquent à toute commande de prestation passée auprès de Forma. Elles sont accessibles depuis le site et la page de paiement Stripe avant toute transaction.</p>
+  </div>
+
+  <table class="id-table">
+    <tr><td>Raison sociale</td><td>Alexis Dumas</td></tr>
+    <tr><td>Nom commercial</td><td>Forma</td></tr>
+    <tr><td>Forme juridique</td><td>Micro-entreprise (BNC)</td></tr>
+    <tr><td>SIRET</td><td>99185807700019</td></tr>
+    <tr><td>Email</td><td>contact@forma-batiment.fr</td></tr>
+    <tr><td>Site web</td><td>https://www.forma-batiment.fr</td></tr>
+    <tr><td>Date de mise à jour</td><td>27/05/2026</td></tr>
+  </table>
+
+  <article>
+    <h2>Article 1 — Objet et champ d'application</h2>
+    <p>Les présentes Conditions Générales de Vente régissent les relations contractuelles entre Alexis Dumas, entrepreneur individuel exerçant sous le nom commercial Forma, SIRET 99185807700019, ci-après désigné « le Prestataire », et toute personne physique ou morale procédant à l'achat d'un service, ci-après désigné « le Client ».</p>
+    <p>Tout achat implique l'acceptation pleine et entière des présentes CGV. Le Client déclare avoir pris connaissance des CGV avant toute commande.</p>
+  </article>
+
+  <article>
+    <h2>Article 2 — Services proposés</h2>
+    <p>Forma propose les services suivants :</p>
+    <ul>
+      <li><strong>Diagnostic Forma (gratuit)</strong> : questionnaire en ligne de 5 minutes, analyse automatisée, rapport personnalisé livré par email dans les 24 heures suivant la soumission. Entièrement gratuit et sans engagement. Le diagnostic ne constitue pas une prestation payante et ne déclenche aucune obligation d'achat.</li>
+      <li><strong>Mise en œuvre Essentiel (490 € TTC)</strong> : déploiement d'un système d'automatisation (devis, relances, facturation) configuré sur les besoins identifiés dans le rapport. Livraison en 3 à 5 jours ouvrés. Passation en visioconférence (30 min) et support email 7 jours inclus.</li>
+      <li><strong>Mise en œuvre Complète (devis sur mesure)</strong> : périmètre défini lors du call de débrief selon les besoins spécifiques identifiés. Prix communiqué par devis avant tout engagement. Livraison en 7 à 10 jours ouvrés.</li>
+      <li><strong>Présence avancée sur Internet (400 € TTC)</strong> : optimisation de la présence en ligne locale (fiche Google, contenus, référencement local). Livraison en 48h à 5 jours ouvrés.</li>
+      <li><strong>Site internet (800 € TTC)</strong> : création d'un site internet personnalisé, mobile-first, avec optimisation SEO locale. Livraison en 5 à 7 jours ouvrés.</li>
+      <li><strong>Pack Visibilité Complet (1 100 € TTC)</strong> : inclut Présence avancée sur Internet et Site internet. Livraison en 7 à 10 jours ouvrés.</li>
+    </ul>
+  </article>
+
+  <article>
+    <h2>Article 3 — Prix</h2>
+    <p>Le Diagnostic Forma est proposé à titre entièrement gratuit. Les prestations de mise en œuvre et de visibilité sont facturées aux prix indiqués en euros.</p>
+    <p>Les prix sont susceptibles d'évoluer à tout moment. Le prix applicable est celui en vigueur au moment de la commande.</p>
+  </article>
+
+  <article>
+    <h2>Article 4 — Commande et paiement</h2>
+    <p>La soumission du formulaire de diagnostic ne constitue pas une commande et n'entraîne aucun engagement financier. Les prestations payantes sont proposées à l'issue d'un call de débrief, uniquement si elles correspondent à la situation du Client.</p>
+    <p>La commande est validée après acceptation du devis ou du lien de paiement transmis par Forma, et règlement sécurisé via Stripe. Le Client reçoit une confirmation par email avec son numéro de commande unique au format FORMA-YYYYMMDD-XXXX.</p>
+    <p>Le paiement est exigible immédiatement à la commande pour les prestations à prix fixe. Pour les prestations sur devis, les conditions de règlement sont précisées dans le devis. Stripe assure le traitement sécurisé des paiements. Forma ne conserve aucune donnée bancaire.</p>
+  </article>
+
+  <article>
+    <h2>Article 5 — Livraison et délais</h2>
+    <p>Le Diagnostic Forma (rapport PDF) est livré gratuitement par email dans les 24 heures suivant la soumission du formulaire, généralement dans les heures suivant la validation.</p>
+    <p>Les prestations de mise en œuvre font l'objet d'un délai de livraison communiqué lors de la commande (3 à 10 jours ouvrés selon la prestation). En cas de dépassement imputable à Forma, le Client en est informé sans délai.</p>
+  </article>
+
+  <article>
+    <h2>Article 6 — Droit de rétractation</h2>
+    <p>Le Diagnostic Forma étant gratuit, aucun droit de rétractation n'est applicable à sa soumission.</p>
+    <p>Pour les prestations de mise en œuvre et de visibilité, conformément à l'article L221-28 du Code de la consommation, le droit de rétractation de 14 jours s'applique jusqu'au début de l'exécution des travaux. En passant commande, le Client peut demander le démarrage immédiat de la prestation et renoncer expressément à son droit de rétractation.</p>
+    <p>Pour les Clients professionnels (achat réalisé dans le cadre de leur activité avec indication du SIRET), le droit de rétractation ne s'applique pas.</p>
+  </article>
+
+  <article>
+    <h2>Article 7 — Remboursements et réclamations</h2>
+    <p>Le Diagnostic Forma étant gratuit, aucun remboursement n'est applicable.</p>
+    <p>Pour les prestations payantes, tout remboursement est exclu une fois la prestation livrée, sauf en cas d'erreur manifeste imputable à Forma. Dans ce cas, le Client dispose de 48 heures après la livraison pour signaler le problème à contact@forma-batiment.fr.</p>
+    <p>En cas de litige, Forma s'engage à répondre dans les 5 jours ouvrés suivant la réception de la réclamation.</p>
+  </article>
+
+  <article>
+    <h2>Article 8 — Propriété intellectuelle</h2>
+    <p>Le rapport de diagnostic est produit à partir des données fournies par le Client. Il est destiné à l'usage exclusif du Client et ne peut être reproduit, revendu ou communiqué à des tiers sans accord préalable écrit de Forma.</p>
+    <p>Forma conserve la propriété intellectuelle des méthodes, frameworks et modèles d'analyse utilisés pour la production des rapports et la mise en œuvre des prestations.</p>
+  </article>
+
+  <article>
+    <h2>Article 9 — Responsabilité</h2>
+    <p>Les recommandations contenues dans le rapport de diagnostic sont fournies à titre indicatif sur la base des informations déclarées. Forma ne saurait être tenu responsable des décisions prises par le Client sur la base de ces recommandations, ni de leurs conséquences financières, commerciales ou opérationnelles.</p>
+    <p>La responsabilité de Forma est en tout état de cause limitée au montant de la prestation payée par le Client.</p>
+  </article>
+
+  <article>
+    <h2>Article 10 — Loi applicable et juridiction</h2>
+    <p>Les présentes CGV sont soumises au droit français. En cas de litige non résolu à l'amiable, le Tribunal judiciaire de Clermont-Ferrand sera seul compétent.</p>
+  </article>
+
+  <div class="highlight">
+    Forma · Alexis Dumas · SIRET 99185807700019 · contact@forma-batiment.fr
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2026 Forma · SIRET 99185807700019</span>
+    <nav class="footer-nav">
+      <a href="cgv.html" class="active">CGV</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="rgpd.html">Politique de confidentialité</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
