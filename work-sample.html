@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Forma — Diagnostic & Revenue System for Trade Contractors</title>
+  <meta name="description" content="Forma is a diagnostic and revenue system built for trade contractors. Automated AI analysis, scored reports, and a sequenced outbound pipeline."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── TOKENS — dark default ── */
+    :root {
+      --accent:#B85C2A; --accent2:#D97E45;
+      --bg:#0E0E0E; --bg2:#141414; --bg3:#1A1A1A;
+      --fg:#FAFAF8; --fg2:#E0E0DE; --fg3:#999999; --fg4:#555555;
+      --border:rgba(250,250,248,0.08);
+      --nav-bg:rgba(14,14,14,0.93);
+      --shadow:0 2px 24px rgba(0,0,0,0.4);
+    }
+    [data-theme="light"] {
+      --bg:#FAFAF8; --bg2:#F3F3F0; --bg3:#ECECEA;
+      --fg:#1A1A1A; --fg2:#333333; --fg3:#666666; --fg4:#999999;
+      --border:rgba(51,51,51,0.11);
+      --nav-bg:rgba(250,250,248,0.93);
+      --shadow:0 2px 16px rgba(26,26,26,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--fg); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; transition:background .3s,color .3s; }
+
+    #bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+    .z1 { position:relative; z-index:1; }
+
+    /* ── IDENTITY BAR ── */
+    .identity-bar {
+      border-bottom:1px solid var(--border);
+      padding:16px 48px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      background:var(--nav-bg); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      position:sticky; top:0; z-index:100;
+      transition:background .3s, border-color .3s;
+    }
+    .nav-logo-text { font-family:'Krona One',sans-serif; font-size:20px; color:var(--fg); letter-spacing:-.02em; text-decoration:none; }
+    .identity-right { display:flex; align-items:center; gap:10px; }
+    #theme-toggle {
+      background:none; border:1px solid var(--border); border-radius:8px; padding:8px 10px;
+      color:var(--fg3); cursor:pointer; display:flex; align-items:center;
+      transition:border-color .2s,color .2s; line-height:1;
+    }
+    #theme-toggle:hover { border-color:var(--accent); color:var(--accent); }
+    #lang-toggle {
+      background:none; border:1px solid var(--border); border-radius:8px; padding:8px 12px;
+      color:var(--fg3); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:12px;
+      font-weight:500; letter-spacing:.08em; transition:border-color .2s,color .2s; line-height:1;
+    }
+    #lang-toggle:hover { border-color:var(--accent); color:var(--accent); }
+    .identity-tag {
+      font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--fg4); border:1px solid var(--border); padding:6px 14px; border-radius:20px;
+    }
+    .identity-tag span { color:var(--accent); }
+
+    /* ── HERO ── */
+    .hero { max-width:860px; margin:0 auto; padding:100px 48px 72px; text-align:center; }
+    .hero-label {
+      font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--accent); margin-bottom:28px;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .hero-label::before, .hero-label::after { content:''; display:inline-block; width:20px; height:1px; background:var(--accent); }
+    .hero-title { font-family:'Krona One',sans-serif; font-size:clamp(32px,4.5vw,62px); line-height:1.06; letter-spacing:-.02em; color:var(--fg); margin-bottom:28px; }
+    .hero-title em { color:var(--accent); font-style:normal; }
+    .hero-sub { font-size:17px; font-weight:300; color:var(--fg3); max-width:580px; margin:0 auto; line-height:1.8; }
+
+    /* ── STATS ── */
+    .stats { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--bg2); transition:background .3s; }
+    .stats-inner { max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); }
+    .stat { padding:40px 36px; border-right:1px solid var(--border); }
+    .stat:last-child { border-right:none; }
+    .stat-num { font-family:'Krona One',sans-serif; font-size:44px; color:var(--accent); line-height:1; margin-bottom:12px; }
+    .stat-desc { font-size:14px; font-weight:500; color:var(--fg2); margin-bottom:6px; }
+    .stat-note { font-size:12px; font-weight:300; color:var(--fg4); line-height:1.55; }
+
+    /* ── SECTIONS ── */
+    .section { max-width:960px; margin:0 auto; padding:88px 48px; }
+    .section + .section { padding-top:0; }
+    .section-rule { border-top:1px solid var(--border); margin:0 48px; }
+    .section-label { font-size:10px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+    .section-label::before { content:''; display:inline-block; width:16px; height:1px; background:var(--accent); }
+    .section-title { font-family:'Krona One',sans-serif; font-size:clamp(22px,2.4vw,34px); line-height:1.1; color:var(--fg); margin-bottom:20px; letter-spacing:-.01em; }
+    .section-body { font-size:15px; font-weight:300; color:var(--fg3); line-height:1.85; max-width:640px; }
+    .section-body strong { color:var(--fg2); font-weight:500; }
+
+    /* ── HOW CARDS ── */
+    .how-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:48px; }
+    .how-card { background:var(--bg2); padding:36px 28px; border-radius:4px; position:relative; transition:background .3s; }
+    .how-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:rgba(184,92,42,.2); border-radius:4px 4px 0 0; }
+    .how-n { font-family:'Krona One',sans-serif; font-size:48px; color:rgba(184,92,42,.15); line-height:1; margin-bottom:20px; }
+    .how-title { font-size:15px; font-weight:500; color:var(--fg); margin-bottom:10px; }
+    .how-desc { font-size:13px; font-weight:300; color:var(--fg4); line-height:1.7; }
+    .how-tag { display:inline-block; margin-top:18px; font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+
+    /* ── FINDINGS ── */
+    .finding-block { margin-top:48px; border-left:3px solid var(--accent); padding:32px 40px; background:rgba(184,92,42,.05); border-radius:0 10px 10px 0; }
+    .finding-tag { font-size:10px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+    .finding-text { font-family:'Krona One',sans-serif; font-size:clamp(16px,1.8vw,22px); line-height:1.45; color:var(--fg); margin-bottom:20px; letter-spacing:-.01em; }
+    .finding-body { font-size:14px; font-weight:300; color:var(--fg3); line-height:1.8; max-width:580px; }
+    .finding-body strong { color:var(--fg2); font-weight:500; }
+
+    /* ── VIDEO ── */
+    .video-section { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:80px 48px; transition:background .3s; }
+    .video-inner { max-width:900px; margin:0 auto; }
+    .video-header { text-align:center; margin-bottom:40px; }
+    .video-title { font-family:'Krona One',sans-serif; font-size:clamp(20px,2vw,28px); color:var(--fg); margin-bottom:10px; letter-spacing:-.01em; }
+    .video-sub { font-size:14px; font-weight:300; color:var(--fg4); }
+    .video-wrap { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; border:1px solid var(--border); background:var(--bg3); }
+    .video-wrap iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+    .video-placeholder { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--fg4); }
+    .video-placeholder .play-icon { width:56px; height:56px; border:2px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .video-placeholder .play-icon svg { margin-left:3px; }
+    .video-placeholder p { font-size:13px; font-weight:300; }
+
+    /* ── CTA ── */
+    .cta-section { max-width:960px; margin:0 auto; padding:88px 48px; display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap; }
+    .cta-left h2 { font-family:'Krona One',sans-serif; font-size:clamp(20px,2vw,28px); color:var(--fg); margin-bottom:10px; letter-spacing:-.01em; }
+    .cta-left p { font-size:14px; font-weight:300; color:var(--fg4); max-width:380px; line-height:1.7; }
+    .cta-actions { display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+    .btn-accent {
+      background:var(--accent); color:#fff; font-family:'DM Sans',sans-serif; font-size:14px;
+      font-weight:500; padding:13px 28px; border-radius:24px; text-decoration:none;
+      white-space:nowrap; display:inline-block;
+      transition:opacity .2s, transform .15s;
+      animation:ctaPulse 2.8s ease-in-out infinite;
+    }
+    .btn-accent:hover { opacity:.85; transform:translateY(-1px); animation:none; }
+    @keyframes ctaPulse { 0%,100%{box-shadow:0 0 0 0 rgba(184,92,42,.38)} 50%{box-shadow:0 0 0 14px rgba(184,92,42,0)} }
+    .btn-clear {
+      background:var(--fg); color:var(--bg); font-family:'DM Sans',sans-serif; font-size:14px;
+      font-weight:500; padding:13px 28px; border-radius:24px; text-decoration:none;
+      white-space:nowrap; display:inline-block; transition:opacity .2s, transform .15s;
+    }
+    .btn-clear:hover { opacity:.85; transform:translateY(-1px); }
+    .btn-ghost { font-size:13px; font-weight:400; color:var(--fg4); text-decoration:none; transition:color .2s; text-align:right; }
+    .btn-ghost:hover { color:var(--fg2); }
+
+    /* ── FOOTER ── */
+    .page-footer { border-top:1px solid var(--border); padding:28px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .footer-note { font-size:11px; color:var(--fg4); font-weight:300; }
+    .footer-note a { color:var(--fg4); text-decoration:none; border-bottom:1px solid var(--border); transition:color .2s; }
+    .footer-note a:hover { color:var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      .identity-bar{padding:14px 20px;}
+      .hero{padding:80px 20px 52px;}
+      .stats-inner{grid-template-columns:1fr 1fr;}
+      .stat:nth-child(2){border-right:none;}
+      .stat:last-child{grid-column:1/-1;border-top:1px solid var(--border);}
+      .section,.video-section{padding:64px 20px;}
+      .section-rule{margin:0 20px;}
+      .how-grid{grid-template-columns:1fr;}
+      .cta-section{padding:64px 20px;flex-direction:column;align-items:flex-start;}
+      .cta-actions{align-items:flex-start;}
+      .page-footer{padding:24px 20px;flex-direction:column;gap:8px;}
+      .finding-block{padding:24px 24px;}
+    }
+    @media(max-width:480px){
+      .stats-inner{grid-template-columns:1fr;}
+      .stat{border-right:none;border-top:1px solid var(--border);}
+      .stat:first-child{border-top:none;}
+      .stat:last-child{grid-column:auto;}
+      .identity-tag{display:none;}
+      .btn-accent,.btn-clear{width:100%;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- ── IDENTITY BAR ── -->
+<header class="identity-bar z1">
+  <a href="https://www.forma-batiment.fr" class="nav-logo-text"><strong>for</strong>ma</a>
+  <div class="identity-right">
+    <button id="theme-toggle" aria-label="Toggle theme"></button>
+    <button id="lang-toggle">FR</button>
+    <span class="identity-tag" data-i18n="identity-tag">System overview · Built by <span>Alexis Dumas</span></span>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero z1">
+  <p class="hero-label" data-i18n="hero-label">Forma</p>
+  <h1 class="hero-title" data-i18n="hero-title">A diagnostic and revenue system<br/>built for <em>trade contractors.</em></h1>
+  <p class="hero-sub" data-i18n="hero-sub">Forma interviews contractors about how they run their business, scores their operations against sector peers, and drives them through an automated conversion pipeline. From cold call to signed engagement.</p>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats z1">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num">12h</div>
+      <div class="stat-desc" data-i18n="stat-1-desc">of administrative tasks per week</div>
+      <div class="stat-note" data-i18n="stat-1-note">(In average) Self-reported by contractors via the diagnostic intake (quoting, invoicing, client follow-up). Our main lever to act on.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">≈€20,000</div>
+      <div class="stat-desc" data-i18n="stat-2-desc">recovered per year</div>
+      <div class="stat-note" data-i18n="stat-2-note">Recovered per year on quoting and invoicing and recovered time (measured for 1–5 person businesses).</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0,22€</div>
+      <div class="stat-desc" data-i18n="stat-3-desc">per report delivered</div>
+      <div class="stat-note" data-i18n="stat-3-note">Full automated diagnostic (scored, benchmarked, PDF-generated, email-delivered.) No manual task in the loop.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHAT FORMA DOES ── -->
+<div class="section-rule z1"></div>
+<section class="section z1">
+  <p class="section-label" data-i18n="what-label">What it does</p>
+  <h2 class="section-title" data-i18n="what-title">Measuring what contractors lose<br/>before selling them a solution.</h2>
+  <p class="section-body" data-i18n="what-body">Most trade businesses lose time and margin not from lack of skill, but from operational debt that no one has ever had the bandwidth to address. <strong>Forma surfaces that debt in numbers.</strong><br/><br/>A 5-minute intake form collects quoting volume, admin hours, margin tracking habits, and web visibility. An AI scores each dimension against regional and trade-specific benchmarks. The output is a PDF report that names the problem, quantifies the cost, and locks the solution behind a call — creating the commercial tension that drives conversion.</p>
+
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-n">01</div>
+      <h3 class="how-title" data-i18n="how1-title">Structured intake</h3>
+      <p class="how-desc" data-i18n="how1-desc">7-page form designed to extract friction. Every field maps to a calculable cost.</p>
+      <span class="how-tag" data-i18n="how1-tag">Free · 5 minutes</span>
+    </div>
+    <div class="how-card">
+      <div class="how-n">02</div>
+      <h3 class="how-title" data-i18n="how2-title">AI scoring & benchmarking</h3>
+      <p class="how-desc" data-i18n="how2-desc">Operations scored across 6 criteria, placed against a regional sector benchmark. Calculated losses and a conversion argument specific to each contractor's profile.</p>
+      <span class="how-tag" data-i18n="how2-tag">Automated · &lt;30 seconds</span>
+    </div>
+    <div class="how-card">
+      <div class="how-n">03</div>
+      <h3 class="how-title" data-i18n="how3-title">Report + outbound pipeline</h3>
+      <p class="how-desc" data-i18n="how3-desc">PDF delivered automatically. Outbound call within 24h. Five automated touchpoints over 14 days if no response, each with a distinct mechanism.</p>
+      <span class="how-tag" data-i18n="how3-tag">5 touchpoints · Fully automated</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<div class="section-rule z1"></div>
+<section class="section z1">
+  <p class="section-label" data-i18n="sys-label">How it works</p>
+  <h2 class="section-title" data-i18n="sys-title">Three stages.<br/>From first contact to tailored solution.</h2>
+
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-n">01</div>
+      <h3 class="how-title" data-i18n="sys1-title">Reach out & diagnose</h3>
+      <p class="how-desc" data-i18n="sys1-desc">A short, structured form turns a cold conversation into a complete operational picture. The contractor answers — the system measures.</p>
+      <span class="how-tag" data-i18n="sys1-tag">Free · 5 minutes</span>
+    </div>
+    <div class="how-card">
+      <div class="how-n">02</div>
+      <h3 class="how-title" data-i18n="sys2-title">Score, benchmark & report</h3>
+      <p class="how-desc" data-i18n="sys2-desc">Operations are scored across key dimensions and placed against sector peers. A personalised report quantifies what each friction point costs — and what fixing it would recover.</p>
+      <span class="how-tag" data-i18n="sys2-tag">Automated · Delivered within 24h</span>
+    </div>
+    <div class="how-card">
+      <div class="how-n">03</div>
+      <h3 class="how-title" data-i18n="sys3-title">Orient & build together</h3>
+      <p class="how-desc" data-i18n="sys3-desc">A debrief call turns the report into a decision. If the contractor moves forward, a solution is designed around their specific constraints and deployed in days.</p>
+      <span class="how-tag" data-i18n="sys3-tag">Tailored · No generic packages</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── KEY FINDINGS ── -->
+<div class="section-rule z1"></div>
+<section class="section z1">
+  <p class="section-label" data-i18n="finding-label">Key finding</p>
+  <h2 class="section-title" data-i18n="finding-title">What a year of running this<br/>taught me about the segment.</h2>
+
+  <div class="finding-block">
+    <p class="finding-tag" data-i18n="f1-tag">Finding 01 — Activation</p>
+    <p class="finding-text" data-i18n="f1-text">"Contractors don't self-serve into calls. Zero bookings through scheduling links. Outbound call within 24 hours: the only conversion lever."</p>
+    <p class="finding-body" data-i18n="f1-body">I tested Calendly as the primary booking mechanism for the debrief call. Click-through was near zero. These are people who run physical businesses, manage their week verbally, and don't navigate browser-based scheduling flows. <strong>The activation has to come from you — every time.</strong> Any onboarding sequence that relies on self-initiated digital steps will systematically underperform on this segment.</p>
+  </div>
+
+  <div class="finding-block" style="margin-top:16px">
+    <p class="finding-tag" data-i18n="f2-tag">Finding 02 — Conversion</p>
+    <p class="finding-text" data-i18n="f2-text">"The question that unlocks the sale is never about software. It's about time and money — anchored in their own numbers."</p>
+    <p class="finding-body" data-i18n="f2-body">The diagnostic form collects admin hours and billable rate. The opening line of every call: <em>"You told me 12 hours a week on admin. At your rate, that's roughly €500 a week. What would it be worth to recover six of those?"</em> Once the cost of the current state is anchored in their own data, the price of the solution becomes a footnote. <strong>The report creates the urgency. The call closes it.</strong></p>
+  </div>
+</section>
+
+<!-- ── VIDEO ── -->
+<div class="video-section z1">
+  <div class="video-inner">
+    <div class="video-header">
+      <h2 class="video-title" data-i18n="video-title">Full system walkthrough</h2>
+      <p class="video-sub" data-i18n="video-sub">6 minutes — form intake, AI report, pipeline, and field findings.</p>
+    </div>
+    <div class="video-wrap">
+      <!--
+        TO EMBED: replace this placeholder with a Loom iframe.
+        <iframe src="https://www.loom.com/embed/LOOM_VIDEO_ID?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true" allowfullscreen></iframe>
+      -->
+      <div class="video-placeholder">
+        <div class="play-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" opacity=".4"/>
+          </svg>
+        </div>
+        <p data-i18n="video-placeholder">Video coming soon — replace placeholder with Loom embed</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CTA ── -->
+<section class="cta-section z1">
+  <div class="cta-left">
+    <h2 data-i18n="cta-title">Try the live diagnostic.</h2>
+    <p data-i18n="cta-body">The same form used in the field. Fill it in as a contractor — or walk through it as a product evaluation. The report is generated and delivered automatically.</p>
+  </div>
+  <div class="cta-actions">
+    <a href="https://casuad.github.io/AUDIT-PME-BTP/" class="btn-accent" target="_blank" data-i18n="cta-btn">Launch the diagnostic →</a>
+    <a href="mailto:dumas.alexis.63@gmail.com" class="btn-ghost" data-i18n="cta-contact">dumas.alexis.63@gmail.com</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="page-footer z1">
+  <p class="footer-note">Built by <a href="https://www.forma-batiment.fr"><strong>for</strong>ma</a> · Alexis Dumas · 2026</p>
+  <p class="footer-note"><a href="https://www.forma-batiment.fr">forma-batiment.fr</a></p>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   TRANSLATIONS
+══════════════════════════════════════════ */
+var I18N = {
+  en: {
+    'title':         'Forma — Diagnostic & Revenue System for Trade Contractors',
+    'meta-desc':     'Forma is a diagnostic and revenue system built for trade contractors. Automated AI analysis, scored reports, and a sequenced outbound pipeline.',
+    'identity-tag':  'System overview · Built by <span>Alexis Dumas</span>',
+    'hero-label':    'Forma',
+    'hero-title':    'A diagnostic and revenue system<br/>built for <em>trade contractors.</em>',
+    'hero-sub':      'Forma interviews contractors about how they run their business, scores their operations against sector peers, and drives them through an automated conversion pipeline. From cold call to signed engagement.',
+    'stat-1-desc':   'of administrative tasks per week',
+    'stat-1-note':   '(In average) Self-reported by contractors via the diagnostic intake (quoting, invoicing, client follow-up). Our main lever to act on.',
+    'stat-2-desc':   'recovered per year',
+    'stat-2-note':   'Recovered per year on quoting and invoicing and recovered time (measured for 1–5 person businesses).',
+    'stat-3-desc':   'per report delivered',
+    'stat-3-note':   'Full automated diagnostic (scored, benchmarked, PDF-generated, email-delivered.) No manual task in the loop.',
+    'what-label':    'What it does',
+    'what-title':    'Measuring what contractors lose<br/>before selling them a fix.',
+    'what-body':     'Most trade businesses lose time and margin not from lack of skill, but from operational debt that no one has ever had the bandwidth to address. <strong>Forma surfaces that debt in numbers.</strong><br/><br/>A 5-minute intake form collects quoting volume, admin hours, margin tracking habits, and web visibility. An AI scores each dimension against regional and trade-specific benchmarks. The output is a PDF report that names the problem, quantifies the cost, and locks the solution behind a call — creating the commercial tension that drives conversion.',
+    'how1-title':    'Structured intake',
+    'how1-desc':     '7-page form designed to extract friction. Every field maps to a calculable cost.',
+    'how1-tag':      'Free · 5 minutes',
+    'how2-title':    'AI scoring & benchmarking',
+    'how2-desc':     'Operations scored across 6 criteria, placed against a regional sector benchmark. Calculated losses and a conversion argument specific to each contractor\'s profile.',
+    'how2-tag':      'Automated · <30 seconds',
+    'how3-title':    'Report + outbound pipeline',
+    'how3-desc':     'PDF delivered automatically. Outbound call within 24h. Five automated touchpoints over 14 days if no response, each with a distinct mechanism.',
+    'how3-tag':      '5 touchpoints · Fully automated',
+    'sys-label':     'How it works',
+    'sys-title':     'Three stages.<br/>From first contact to tailored solution.',
+    'sys1-title':    'Reach out & diagnose',
+    'sys1-desc':     'A short, structured form turns a cold conversation into a complete operational picture. The contractor answers — the system measures.',
+    'sys1-tag':      'Free · 5 minutes',
+    'sys2-title':    'Score, benchmark & report',
+    'sys2-desc':     'Operations are scored across key dimensions and placed against sector peers. A personalised report quantifies what each friction point costs — and what fixing it would recover.',
+    'sys2-tag':      'Automated · Delivered within 24h',
+    'sys3-title':    'Orient & build together',
+    'sys3-desc':     'A debrief call turns the report into a decision. If the contractor moves forward, a solution is designed around their specific constraints and deployed in days.',
+    'sys3-tag':      'Tailored · No generic packages',
+    'finding-label': 'Key finding',
+    'finding-title': 'What a year of running this<br/>taught me about the segment.',
+    'f1-tag':        'Finding 01 — Activation',
+    'f1-text':       '"Contractors don\'t self-serve into calls. Zero bookings through scheduling links. Outbound call within 24 hours: the only conversion lever."',
+    'f1-body':       'I tested Calendly as the primary booking mechanism for the debrief call. Click-through was near zero. These are people who run physical businesses, manage their week verbally, and don\'t navigate browser-based scheduling flows. <strong>The activation has to come from you — every time.</strong> Any onboarding sequence that relies on self-initiated digital steps will systematically underperform on this segment.',
+    'f2-tag':        'Finding 02 — Conversion',
+    'f2-text':       '"The question that unlocks the sale is never about software. It\'s about time and money — anchored in their own numbers."',
+    'f2-body':       'The diagnostic form collects admin hours and billable rate. The opening line of every call: <em>"You told me 12 hours a week on admin. At your rate, that\'s roughly €500 a week. What would it be worth to recover six of those?"</em> Once the cost of the current state is anchored in their own data, the price of the solution becomes a footnote. <strong>The report creates the urgency. The call closes it.</strong>',
+    'video-title':   'Full system walkthrough',
+    'video-sub':     '6 minutes — form intake, AI report, pipeline, and field findings.',
+    'video-placeholder': 'Video coming soon — replace placeholder with Loom embed',
+    'cta-title':     'Try the live diagnostic.',
+    'cta-body':      'The same form used in the field. Fill it in as a contractor — or walk through it as a product evaluation. The report is generated and delivered automatically.',
+    'cta-btn':       'Launch the diagnostic →',
+    'cta-contact':   'dumas.alexis.63@gmail.com'
+  },
+  fr: {
+    'title':         'Forma — Diagnostic opérationnel pour les professionnels du bâtiment',
+    'meta-desc':     'Forma identifie et chiffre exactement ce que votre activité perd en temps et en argent. Diagnostic gratuit, rapport personnalisé, accompagnement sur mesure.',
+    'identity-tag':  'Vue d\'ensemble · Construit par <span>Alexis Dumas</span>',
+    'hero-label':    'Forma',
+    'hero-title':    'Un système de diagnostic<br/>pour les <em>professionnels du bâtiment.</em>',
+    'hero-sub':      'Forma interroge les entreprises du bâtiment sur leur organisation, note leurs opérations par rapport à leurs pairs sectoriels, et les accompagne vers des solutions concrètes — du premier contact au résultat mesurable.',
+    'stat-1-desc':   'de tâches administratives par semaine',
+    'stat-1-note':   '(En moyenne) Déclaré par les artisans lors du diagnostic (devis, facturation, relances clients). Notre principal levier d\'action.',
+    'stat-2-desc':   'récupérés par an',
+    'stat-2-note':   'Récupérés sur les devis, la facturation et le temps administratif (mesuré sur des entreprises de 1 à 5 personnes).',
+    'stat-3-desc':   'par rapport livré',
+    'stat-3-note':   'Diagnostic entièrement automatisé (noté, généré en PDF, livré par email). Aucune tâche manuelle dans la boucle.',
+    'what-label':    'Ce que ça fait',
+    'what-title':    'Mesurer ce que perdent les artisans,<br/>avant de leur proposer une solution.',
+    'what-body':     'La plupart des entreprises du bâtiment perdent du temps et de la marge non par manque de compétences, mais à cause d\'une organisation que personne n\'a jamais eu le temps d\'optimiser. <strong>Forma met un chiffre sur ce coût caché.</strong><br/><br/>Un formulaire de 5 minutes collecte le volume de devis, les heures d\'administration, les pratiques de suivi de marge et la visibilité web. Une IA note chaque dimension par rapport aux références sectorielles régionales. Le résultat est un rapport PDF qui nomme les problèmes, chiffre les coûts et verrouille les solutions derrière un appel — créant la tension commerciale qui déclenche la conversion.',
+    'how1-title':    'Prise de contact & diagnostic',
+    'how1-desc':     'Un formulaire court et structuré transforme une conversation froide en portrait opérationnel complet. L\'entreprise répond — le système mesure.',
+    'how1-tag':      'Gratuit · 5 minutes',
+    'how2-title':    'Score IA & benchmark sectoriel',
+    'how2-desc':     'Les opérations sont notées sur 6 critères et comparées aux pairs sectoriels régionaux. Coûts calculés et argument de conversion personnalisé pour chaque profil.',
+    'how2-tag':      'Automatisé · <30 secondes',
+    'how3-title':    'Rapport & pipeline de suivi',
+    'how3-desc':     'PDF livré automatiquement. Appel sortant sous 24h. Cinq points de contact automatisés sur 14 jours en l\'absence de réponse, chacun avec un mécanisme distinct.',
+    'how3-tag':      '5 points de contact · Entièrement automatisé',
+    'sys-label':     'Comment ça marche',
+    'sys-title':     'Trois étapes.<br/>Du premier contact à la solution sur mesure.',
+    'sys1-title':    'Prise de contact & diagnostic',
+    'sys1-desc':     'Un formulaire court et structuré transforme une conversation froide en portrait opérationnel complet. L\'artisan répond — le système mesure.',
+    'sys1-tag':      'Gratuit · 5 minutes',
+    'sys2-title':    'Score, benchmark & rapport',
+    'sys2-desc':     'Les opérations sont notées sur les dimensions clés et comparées aux pairs sectoriels. Un rapport personnalisé chiffre ce que coûte chaque friction et ce que sa résolution permettrait de récupérer.',
+    'sys2-tag':      'Automatisé · Livré sous 24h',
+    'sys3-title':    'Orientation & mise en œuvre',
+    'sys3-desc':     'Un appel de débrief transforme le rapport en décision. Si l\'entreprise souhaite aller plus loin, une solution est conçue selon ses contraintes spécifiques et déployée en quelques jours.',
+    'sys3-tag':      'Sur mesure · Sans package générique',
+    'finding-label': 'Observations terrain',
+    'finding-title': 'Ce qu\'une année d\'opérations<br/>m\'a appris sur ce segment.',
+    'f1-tag':        'Observation 01 — Activation',
+    'f1-text':       '"Les artisans ne réservent pas eux-mêmes un créneau. Zéro réservation via les liens de calendrier. L\'appel sortant dans les 24h : le seul levier qui convertit."',
+    'f1-body':       'J\'ai testé Calendly comme mécanisme principal de prise de RDV. Le taux de clic était proche de zéro. Ce sont des personnes qui pilotent une activité physique, gèrent leur semaine verbalement, et ne naviguent pas dans des outils de planification en ligne. <strong>L\'activation doit venir de votre côté — à chaque fois.</strong> Toute séquence d\'onboarding ou d\'upsell qui repose sur des actions digitales auto-initiées sous-performera systématiquement sur ce segment.',
+    'f2-tag':        'Observation 02 — Conversion',
+    'f2-text':       '"La question qui déverrouille la vente n\'est jamais sur le logiciel. C\'est le temps et l\'argent — ancrés dans leurs propres chiffres."',
+    'f2-body':       'Le formulaire collecte les heures d\'admin et le taux journalier. La phrase d\'ouverture de chaque appel : <em>"Vous m\'avez dit 12 heures par semaine d\'administration. À votre taux, c\'est environ 500 € par semaine. Combien vaudrait-il de récupérer six de ces heures ?"</em> Une fois le coût du statu quo ancré dans leurs propres données, le prix de la solution devient une note de bas de page. <strong>Le rapport crée l\'urgence. L\'appel ferme.</strong>',
+    'video-title':   'Présentation complète du système',
+    'video-sub':     '6 minutes — formulaire, rapport IA, pipeline et observations terrain.',
+    'video-placeholder': 'Video walkthrough — coming soon',
+    'cta-title':     'Essayez le diagnostic en direct.',
+    'cta-body':      'Le même formulaire utilisé sur le terrain. Remplissez-le comme un artisan — ou parcourez-le comme une évaluation produit. Le rapport est généré et livré automatiquement.',
+    'cta-btn':       'Lancer le diagnostic →',
+    'cta-contact':   'dumas.alexis.63@gmail.com'
+  }
+};
+
+/* ── LANG ── */
+function setLang(lang) {
+  var html = document.documentElement;
+  html.setAttribute('data-lang', lang);
+  html.setAttribute('lang', lang);
+  document.title = I18N[lang]['title'];
+  var m = document.querySelector('meta[name="description"]');
+  if (m) m.setAttribute('content', I18N[lang]['meta-desc']);
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n');
+    if (I18N[lang][k] !== undefined) el.innerHTML = I18N[lang][k];
+  });
+  document.getElementById('lang-toggle').textContent = lang === 'en' ? 'FR' : 'EN';
+  localStorage.setItem('forma-ws-lang', lang);
+}
+(function() {
+  var saved = localStorage.getItem('forma-ws-lang') || 'en';
+  if (saved !== 'en') setLang(saved);
+  document.getElementById('lang-toggle').addEventListener('click', function() {
+    var cur = document.documentElement.getAttribute('data-lang') || 'en';
+    setLang(cur === 'en' ? 'fr' : 'en');
+  });
+})();
+
+/* ── THEME ── */
+(function() {
+  var html = document.documentElement, btn = document.getElementById('theme-toggle');
+  var saved = localStorage.getItem('forma-ws-theme');
+  if (saved) html.setAttribute('data-theme', saved);
+  function icon(isDark) {
+    btn.innerHTML = isDark
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+  icon(html.getAttribute('data-theme') !== 'light');
+  btn.addEventListener('click', function() {
+    var n = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', n);
+    localStorage.setItem('forma-ws-theme', n);
+    icon(n !== 'light');
+  });
+})();
+
+/* ── CANVAS ── */
+(function() {
+  var c = document.getElementById('bg-canvas'), ctx = c.getContext('2d'), S = 48, tick = 0;
+  var orbs = [
+    {px:0.15, py:0.20, vx:0.00016, vy:0.00011, r:0.38},
+    {px:0.80, py:0.50, vx:-0.00013, vy:0.00015, r:0.30},
+    {px:0.50, py:0.85, vx:0.00019, vy:-0.00009, r:0.26}
+  ];
+  function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  function loop() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    var dark = document.documentElement.getAttribute('data-theme') !== 'light';
+    var base = dark ? 'rgba(250,250,248,' : 'rgba(26,26,26,';
+    orbs.forEach(function(o) {
+      o.px += o.vx; o.py += o.vy;
+      if (o.px < 0 || o.px > 1) o.vx *= -1;
+      if (o.py < 0 || o.py > 1) o.vy *= -1;
+      var ox = o.px * c.width, oy = o.py * c.height;
+      var rr = o.r * Math.max(c.width, c.height);
+      var g = ctx.createRadialGradient(ox, oy, 0, ox, oy, rr);
+      var ao = dark ? 0.12 : 0.09;
+      g.addColorStop(0, 'rgba(184,92,42,' + ao + ')');
+      g.addColorStop(0.5, 'rgba(184,92,42,' + (ao * 0.35) + ')');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, c.width, c.height);
+    });
+    var cols = Math.ceil(c.width / S) + 2, rows = Math.ceil(c.height / S) + 2;
+    for (var i = 0; i < cols; i++) {
+      for (var j = 0; j < rows; j++) {
+        var w = Math.sin(tick * 0.016 + i * 0.38 + j * 0.26) * 0.5 + 0.5;
+        var a = (0.04 + w * 0.08).toFixed(3), r = 1.1 + w * 2.0;
+        ctx.beginPath(); ctx.arc(i * S, j * S, r, 0, 6.283);
+        ctx.fillStyle = base + a + ')'; ctx.fill();
+      }
+    }
+    tick++; requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+</body>
+</html>
